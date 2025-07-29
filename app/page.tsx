@@ -6,10 +6,10 @@ export default function Home() {
       <div className="flex flex-row justify-between p-5">
         <span className="text-4xl text-blue-700 font-bold">ExpenseLog</span>
         <div className="flex gap-4">
-          <button className="font-semibold text-white bg-blue-800 text-bold rounded-2xl p-2 cursor-pointer hover:bg-blue-600 transition-colors ease-in-out duration-300">
+          <button className="font-semibold text-white bg-blue-800  rounded-2xl p-2 cursor-pointer hover:bg-blue-600 transition-colors ease-in-out duration-300">
             Sign up
           </button>
-          <button className="font-semibold text-white bg-green-600 text-bold rounded-2xl p-2 cursor-pointer hover:bg-green-500 transition-colors ease-in-out duration-300">
+          <button className="font-semibold text-white bg-green-600  rounded-2xl p-2 cursor-pointer hover:bg-green-500 transition-colors ease-in-out duration-300">
             Sign In
           </button>
         </div>
@@ -32,10 +32,10 @@ export default function Home() {
       </div>
       <div className="flex justify-center mt-[5%]">
         <div className="flex gap-5">
-          <button className="font-semibold text-white bg-green-600 text-bold rounded-2xl p-2 hover:bg-green-500 transition-colors ease-in-out duration-300 cursor-pointer ">
+          <button className="font-semibold text-white bg-green-600  rounded-2xl p-2 hover:bg-green-500 transition-colors ease-in-out duration-300 cursor-pointer ">
             Get Started - For Free
           </button>
-          <button className="font-semibold text-black  bg-gray-300 text-bold rounded-2xl p-2 hover:border-black border-2 border-transparent transition-all cursor-pointer ease-in-out duration-300">
+          <button className="font-semibold text-black  bg-gray-300 rounded-2xl p-2 hover:border-black border-2 border-transparent transition-all cursor-pointer ease-in-out duration-300">
             Learn More{" "}
           </button>
         </div>
@@ -43,7 +43,7 @@ export default function Home() {
 
       <div className="h-[400px]  flex justify-center mt-[3%] mb-[3%]">
         <div className="bg-blue-100 w-[50%] text-center rounded-2xl p-2">
-          Preview vedio
+          Preview video
         </div>
       </div>
       <div className="flex justify-evenly p-5 ">
@@ -72,7 +72,7 @@ export default function Home() {
           <div className="flex justify-center">
             <span className="text-xl font-semibold"> Log Your Expenses</span>
           </div>
-          <span className="text-xl">Quickly add transaction on the go.</span>
+          <span className="text-xl">Quickly add transactions on the go.</span>
         </div>
         <div className="flex flex-col items-center justify-center">
           <Icon icon="teenyicons:arrow-right-solid" className="text-7xl " />
