@@ -1,7 +1,8 @@
 import Link from "next/link";
+import { Icon } from "@iconify/react";
 export default function Home() {
   return (
-    <div>
+    <div className="">
       <div className="flex flex-row justify-between p-5">
         <span className="text-4xl text-blue-700 font-bold">ExpenseLog</span>
         <div className="flex gap-4">
@@ -40,42 +41,69 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="h-screen w-screen flex justify-center mt-[3%]">
-        <div className="bg-blue-100 w-[50%] h-[50%] text-center rounded-2xl p-2">
+      <div className="h-[400px]  flex justify-center mt-[3%] mb-[3%]">
+        <div className="bg-blue-100 w-[50%] text-center rounded-2xl p-2">
           Preview vedio
         </div>
       </div>
-      <div className="flex justify-evenly mt-0">
-        <div className="flex flex-col gap-3">
-          <span className="bg-purple-400 size-10 text-center rounded-full p-1 text-2xl font-bold">
-            1
-          </span>
-          <span className="text-xl font-semibold"> Create Your Account</span>
+      <div className="flex justify-evenly p-5 ">
+        <div className="flex bg-yellow-100 flex-col gap-3 rounded-2xl p-3">
+          <div className="flex justify-center">
+            <span className="bg-purple-400 size-10 text-center rounded-full p-1 text-2xl font-bold">
+              1
+            </span>
+          </div>
+          <div className="flex justify-center">
+            <span className="text-xl font-semibold"> Create Your Account</span>
+          </div>
           <span className="text-xl">
-            Sign up in seconds with your Google account
+            Sign up in seconds with your Google account.
           </span>
         </div>
-
-        <div className="flex flex-col gap-3">
-          <span className="bg-pink-400 size-10 text-center rounded-full p-1 text-2xl font-bold">
-            2
-          </span>
-          <span className="text-xl font-semibold"> Create Your Account</span>
-          <span className="text-xl">
-            Sign up in seconds with your Google account
-          </span>
+        <div className="flex flex-col items-center justify-center">
+          <Icon icon="teenyicons:arrow-right-solid" className="text-7xl " />
         </div>
-
-        <div className="flex flex-col gap-3">
-          <span className="bg-red-400 size-10 text-center rounded-full p-1 text-2xl font-bold">
-            3
-          </span>
-          <span className="text-xl font-semibold"> Create Your Account</span>
+        <div className="flex flex-col bg-yellow-100 rounded-2xl p-3 gap-3">
+          <div className="flex justify-center">
+            <span className="bg-pink-400 size-10 text-center rounded-full p-1 text-2xl font-bold">
+              2
+            </span>
+          </div>
+          <div className="flex justify-center">
+            <span className="text-xl font-semibold"> Log Your Expenses</span>
+          </div>
+          <span className="text-xl">Quickly add transaction on the go.</span>
+        </div>
+        <div className="flex flex-col items-center justify-center">
+          <Icon icon="teenyicons:arrow-right-solid" className="text-7xl " />
+        </div>
+        <div className="flex flex-col bg-yellow-100 rounded-2xl p-3 gap-3">
+          <div className="flex justify-center">
+            <span className="bg-red-400 size-10 text-center rounded-full p-1 text-2xl font-bold">
+              3
+            </span>
+          </div>
+          <div className="flex justify-center">
+            <span className="text-xl font-semibold"> Gain Insights</span>
+          </div>
           <span className="text-xl">
-            Sign up in seconds with your Google account
+            See clear reports and make informed financial choices.
           </span>
         </div>
       </div>
+      <footer className="mt-[3%] bg-neutral-200">
+        <div className="flex flex-col justify-center items-center gap-3">
+          <span className="text-black ">
+            &copy;{new Date().getFullYear()} ExpenseLog. All rights reserved.
+          </span>
+          <a href="" className="hover:underline">
+            Privacy Policy
+          </a>
+          <a href="" className="hover:underline">
+            Terms of Service
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }
