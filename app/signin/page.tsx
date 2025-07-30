@@ -1,5 +1,8 @@
 "use client";
 import { Icon } from "@iconify/react";
+import NextAuth from "next-auth";
+import Google from "next-auth/providers/google";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 const Signinpage = () => {
@@ -12,7 +15,12 @@ const Signinpage = () => {
         </span>
         <div className="transition-all duration-200 ease-in-out flex justify-center gap-2 bg-gray-300 p-2 rounded-2xl w-full  border-2 border-transparent hover:border-blue-900 hover:bg-blue-100 cursor-pointer">
           <Icon icon="flat-color-icons:google" width="32" height="32" />
-          <span className="text-2xl font-semibold">sign in with google</span>
+          <button
+            onClick={() => signIn("google", { callbackurl: "/myexpenses" })}
+            className="text-2xl font-semibold"
+          >
+            sign in with google
+          </button>
         </div>
 
         <div className="transition-all duration-200 ease-in-out  flex gap-2 justify-center bg-gray-300 p-2 rounded-2xl w-full  border-2 border-transparent hover:border-blue-900 hover:bg-blue-100 cursor-pointer">
@@ -22,7 +30,14 @@ const Signinpage = () => {
 
         <div className="transition-all duration-200 ease-in-out  flex gap-2 justify-center bg-gray-300 p-2 rounded-2xl w-full border-2 border-transparent hover:border-blue-900 hover:bg-blue-100 cursor-pointer">
           <Icon icon="logos:github-icon" width="32" height="32" />
-          <span className="text-2xl font-semibold">sign in with Github</span>
+          <button
+            onClick={() => {
+              signIn("github", { callbackUrl: "/myexpenses" });
+            }}
+            className="text-2xl font-semibold"
+          >
+            sign in with Github
+          </button>
         </div>
         <button
           onClick={() => router.push("/")}
