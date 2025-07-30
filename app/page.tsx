@@ -14,7 +14,7 @@ export default function Home() {
 
         <button
           onClick={() => handlesignin()}
-          className="font-semibold text-white bg-green-600  rounded-2xl p-2 cursor-pointer hover:bg-green-500 transition-colors ease-in-out duration-300"
+          className="font-semibold text-white bg-green-600  rounded-2xl py-2 px-5 cursor-pointer hover:bg-green-500 transition-colors ease-in-out duration-300"
         >
           Sign In
         </button>
