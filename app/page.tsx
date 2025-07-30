@@ -1,6 +1,12 @@
+"use client";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
+import { useRouter } from "next/navigation";
 export default function Home() {
+  const router = useRouter();
+  function handlesignin() {
+    router.push("/signin");
+  }
   return (
     <div className="">
       <div className="flex flex-row justify-between p-5">
@@ -9,7 +15,10 @@ export default function Home() {
           <button className="font-semibold text-white bg-blue-800  rounded-2xl p-2 cursor-pointer hover:bg-blue-600 transition-colors ease-in-out duration-300">
             Sign up
           </button>
-          <button className="font-semibold text-white bg-green-600  rounded-2xl p-2 cursor-pointer hover:bg-green-500 transition-colors ease-in-out duration-300">
+          <button
+            onClick={() => handlesignin()}
+            className="font-semibold text-white bg-green-600  rounded-2xl p-2 cursor-pointer hover:bg-green-500 transition-colors ease-in-out duration-300"
+          >
             Sign In
           </button>
         </div>
