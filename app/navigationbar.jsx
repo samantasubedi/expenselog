@@ -3,10 +3,10 @@ import Link from 'next/link'
 
 const navigationbar = () => {
   return (
-<div>
-    <Link  onClick className={oncaki}>Home</Link>
-    <Link>My Expenses</Link>
-    <Link>Add Expense</Link>
+<div className='flex w-[50%] justify-evenly'>
+    <Link href="/" >Home</Link>
+    <Link href="/myexpenses">My Expenses</Link>
+    <Link href="addexpenses">Add Expense</Link>
 </div>
   )
 }

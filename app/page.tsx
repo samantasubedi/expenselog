@@ -11,17 +11,13 @@ export default function Home() {
     <div className="">
       <div className="flex flex-row justify-between p-5">
         <span className="text-4xl text-blue-700 font-bold">ExpenseLog</span>
-        <div className="flex gap-4">
-          <button className="font-semibold text-white bg-blue-800  rounded-2xl p-2 cursor-pointer hover:bg-blue-600 transition-colors ease-in-out duration-300">
-            Sign up
-          </button>
-          <button
-            onClick={() => handlesignin()}
-            className="font-semibold text-white bg-green-600  rounded-2xl p-2 cursor-pointer hover:bg-green-500 transition-colors ease-in-out duration-300"
-          >
-            Sign In
-          </button>
-        </div>
+
+        <button
+          onClick={() => handlesignin()}
+          className="font-semibold text-white bg-green-600  rounded-2xl p-2 cursor-pointer hover:bg-green-500 transition-colors ease-in-out duration-300"
+        >
+          Sign In
+        </button>
       </div>
       <div className="mt-[5%] flex flex-col gap-10">
         <div className="flex justify-center">
@@ -41,7 +37,10 @@ export default function Home() {
       </div>
       <div className="flex justify-center mt-[5%]">
         <div className="flex gap-5">
-          <button className="font-semibold text-white bg-green-600  rounded-2xl p-2 hover:bg-green-500 transition-colors ease-in-out duration-300 cursor-pointer ">
+          <button
+            onClick={() => handlesignin()}
+            className="font-semibold text-white bg-green-600  rounded-2xl p-2 hover:bg-green-500 transition-colors ease-in-out duration-300 cursor-pointer "
+          >
             Get Started - For Free
           </button>
           <button className="font-semibold text-black  bg-gray-300 rounded-2xl p-2 hover:border-black border-2 border-transparent transition-all cursor-pointer ease-in-out duration-300">
