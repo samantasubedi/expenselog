@@ -16,7 +16,7 @@ const Signinpage = () => {
         <div className="transition-all duration-200 ease-in-out flex justify-center gap-2 bg-gray-300 p-2 rounded-2xl w-full  border-2 border-transparent hover:border-blue-900 hover:bg-blue-100 cursor-pointer">
           <Icon icon="flat-color-icons:google" width="32" height="32" />
           <button
-            onClick={() => signIn("google", { callbackurl: "/myexpenses" })}
+            onClick={() => signIn("google", { callbackUrl: "/myexpenses" })}
             className="text-2xl font-semibold"
           >
             sign in with google
