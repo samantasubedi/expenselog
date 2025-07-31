@@ -34,15 +34,13 @@ import { useEffect } from "react";
 const Expensepage = () => {
   const session = useSession();
   const status = session.status;
-  useEffect(() => {
-    if (session.status === "unauthenticated") {
-      toast.warn("please signin to continue");
-      const timer = setTimeout(() => {
-        return redirect("/");
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
-  }, [status]);
+
+  if (session.status === "unauthenticated") {
+    toast.warn("please signin to continue");
+
+    return redirect("/");
+  }
+
   const username = session.data?.user?.name;
   const useremail = session.data?.user?.email;
   return (
