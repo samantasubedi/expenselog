@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navigationbar from "@/components/navigationbar";
-import { SessionProvider } from "next-auth/react";
+import { ToastContainer } from "react-toastify";
+
 import Sessionproviderwrapper from "./providers/sessionprovider";
 
 const geistSans = Geist({
@@ -31,6 +32,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navigationbar />
+        <ToastContainer
+          position="top-center"
+          autoClose={1500}
+          theme="colored"
+        ></ToastContainer>
         <Sessionproviderwrapper>{children}</Sessionproviderwrapper>
       </body>
     </html>

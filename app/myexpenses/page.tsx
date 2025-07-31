@@ -26,13 +26,23 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { toast } from "react-toastify";
 
 import React from "react";
+import { useEffect } from "react";
+
 const Expensepage = () => {
   const session = useSession();
-  if (session.status === "unauthenticated") {
-    return redirect("/");
-  }
+  const status = session.status;
+  useEffect(() => {
+    if (session.status === "unauthenticated") {
+      toast.warn("please signin to continue");
+      const timer = setTimeout(() => {
+        return redirect("/");
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
   const username = session.data?.user?.name;
   const useremail = session.data?.user?.email;
   return (
