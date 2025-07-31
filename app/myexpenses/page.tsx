@@ -23,13 +23,22 @@
 //     };
 //   }
 // }
-import { signOut } from "next-auth/react";
+"use client";
+import { signOut, useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+
 import React from "react";
 const Expensepage = () => {
+  const session = useSession();
+  if (session.status === "unauthenticated") {
+    return redirect("/");
+  }
+  const username = session.data?.user?.name;
+  const useremail = session.data?.user?.email;
   return (
     <div className="">
       <div>My Expenses</div>
-      <div>hello </div>
+      <div>hello {username} </div>
       <button
         className="bg-red-500 text-white font-bold p-2 rounded-2xl cursor-pointer"
         onClick={() => signOut({ callbackUrl: "/" })}
