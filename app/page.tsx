@@ -4,11 +4,22 @@ import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 export default function Home() {
+  const session = useSession();
+  const sessionstatus = session.status;
+  console.log(sessionstatus);
+
   const router = useRouter();
   function handlesignin() {
     router.push("/signin");
   }
-  useSession();
+  function handlegetstarted() {
+    if (sessionstatus == "authenticated") {
+      router.push("/myexpenses");
+    } else {
+      router.push("/signin");
+    }
+  }
+
   return (
     <div className="">
       <div className="flex flex-row justify-between p-5">
@@ -40,7 +51,7 @@ export default function Home() {
       <div className="flex justify-center mt-[5%]">
         <div className="flex gap-5">
           <button
-            onClick={() => handlesignin()}
+            onClick={() => handlegetstarted()}
             className="font-semibold text-white bg-green-600  rounded-2xl p-2 hover:bg-green-500 transition-colors ease-in-out duration-300 cursor-pointer "
           >
             Get Started - For Free
