@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Expense</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for animations and other effects */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        .animate-fade-in {
+            animation: fade-in 0.5s ease-in-out;
+        }
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 50;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: confetti-fall 3s linear forwards;
+            transform-origin: center;
+        }
+        
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* lucide-react inline SVG icons */
+        .icon {
+            width: 16px;
+            height: 16px;
+            stroke-width: 2;
+            stroke: currentColor;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            margin-right: 8px; /* Tailwind's mr-2 */
+        }
+        
+        /* Utility for icon color */
+        .text-rose-500 .icon { stroke: #f43f5e; }
+        .text-amber-500 .icon { stroke: #f59e0b; }
+        .text-blue-500 .icon { stroke: #3b82f6; }
+        .text-green-500 .icon { stroke: #22c55e; }
+        .text-slate-500 .icon { stroke: #64748b; }
+        .text-gray-500 .icon { stroke: #6b7280; }
+        .text-indigo-500 .icon { stroke: #6366f1; }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Main Container -->
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-2xl w-full max-w-2xl
+        border border-gray-200 dark:border-gray-700 transition-all duration-500
+        hover:shadow-indigo-500/30 dark:hover:shadow-indigo-500/20">
+        
+        <h1 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-2">Add New Expense</h1>
+        <p class="text-center text-gray-500 dark:text-gray-400 mb-8">
+            Fill out the details below to track your spending.
+        </p>
+
+        <!-- Step Progress Bar -->
+        <div class="flex justify-between items-center mb-10 relative">
+            <div class="absolute w-full h-1 bg-gray-200 dark:bg-gray-700 top-5 left-0 -z-10">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500 ease-in-out"></div>
+            </div>
+            <!-- Step 1 -->
+            <div id="step-1-indicator" class="relative flex flex-col items-center">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 bg-indigo-500 text-white">1</div>
+                <span class="text-sm mt-2 transition-all duration-300 text-indigo-500 font-semibold">Details</span>
+            </div>
+            <!-- Step 2 -->
+            <div id="step-2-indicator" class="relative flex flex-col items-center">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 bg-gray-200 text-gray-500">2</div>
+                <span class="text-sm mt-2 transition-all duration-300 text-gray-500">Date & Type</span>
+            </div>
+            <!-- Step 3 -->
+            <div id="step-3-indicator" class="relative flex flex-col items-center">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 bg-gray-200 text-gray-500">3</div>
+                <span class="text-sm mt-2 transition-all duration-300 text-gray-500">Review</span>
+            </div>
+        </div>
+
+        <!-- The main form -->
+        <form id="expense-form" class="space-y-6">
+            <!-- Step 1 Content -->
+            <div id="step-1" class="space-y-6 animate-fade-in">
+                <!-- Title Input -->
+                <div class="space-y-1">
+                    <label for="title" class="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg>
+                        Expense Title
+                    </label>
+                    <input id="title" type="text" placeholder="e.g., Groceries for the week" class="w-full px-4 py-2 bg-white dark:bg-gray-800 border rounded-xl shadow-inner border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-200">
+                    <p id="title-error" class="text-xs text-red-500 mt-1 hidden"></p>
+                </div>
+                <!-- Amount Input -->
+                <div class="space-y-1">
+                    <label for="amount" class="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                        Amount
+                    </label>
+                    <input id="amount" type="number" placeholder="0.00" class="w-full px-4 py-2 bg-white dark:bg-gray-800 border rounded-xl shadow-inner border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-200">
+                    <p id="amount-error" class="text-xs text-red-500 mt-1 hidden"></p>
+                </div>
+            </div>
+
+            <!-- Step 2 Content (Hidden by default) -->
+            <div id="step-2" class="space-y-6 hidden">
+                <!-- Date Picker -->
+                <div class="relative space-y-1" id="date-picker-container">
+                    <label class="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        Date
+                    </label>
+                    <div id="date-input" class="w-full px-4 py-2 bg-white dark:bg-gray-800 border rounded-xl shadow-inner cursor-pointer border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-200">
+                        Select a date
+                    </div>
+                    <p id="date-error" class="text-xs text-red-500 mt-1 hidden"></p>
+                    <div id="date-picker-dropdown" class="absolute top-full left-0 z-10 mt-2 p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700
+                        rounded-xl shadow-xl hidden animate-fade-in-down transition-all duration-300">
+                        <div class="flex justify-between items-center mb-4">
+                            <button type="button" id="prev-month" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg>
+                            </button>
+                            <span id="month-year" class="font-semibold text-lg"></span>
+                            <button type="button" id="next-month" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m13 17 5-5-5-5"/><path d="m6 17 5-5-5-5"/></svg>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-7 text-center text-sm text-gray-500 dark:text-gray-400 font-medium mb-2">
+                            <div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div><div>Su</div>
+                        </div>
+                        <div id="calendar-days" class="grid grid-cols-7 gap-1 text-sm"></div>
+                    </div>
+                </div>
+
+                <!-- Category Selector -->
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12.586 4.586A2 2 0 0 0 11.172 4H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2 2 0 0 0 2.828 0l7.172-7.172a2 2 0 0 0 0-2.828L12.586 4.586z"></path><circle cx="7.5" cy="7.5" r="1.5"></circle></svg>
+                        Category
+                    </label>
+                    <div id="category-selector" class="grid grid-cols-2 md:grid-cols-3 gap-3 rounded-xl p-2 bg-gray-100 dark:bg-gray-700 transition-all duration-200">
+                        <!-- Category buttons will be inserted here by JS -->
+                    </div>
+                    <p id="category-error" class="text-xs text-red-500 mt-1 hidden"></p>
+                </div>
+            </div>
+
+            <!-- Step 3 Content (Hidden by default) -->
+            <div id="step-3" class="space-y-6 hidden">
+                <!-- Description Textarea -->
+                <div class="space-y-1">
+                    <label for="description" class="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                        Description / Notes
+                    </label>
+                    <textarea id="description" rows="4" placeholder="Add any extra details about this expense..." class="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-200"></textarea>
+                </div>
+
+                <!-- Recurring Checkbox -->
+                <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="recurring" class="h-5 w-5 text-indigo-600 rounded focus:ring-indigo-500 transition-colors duration-200">
+                    <label for="recurring" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Is this a recurring expense?
+                    </label>
+                </div>
+
+                <!-- Summary and Confirmation -->
+                <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-6 space-y-4 shadow-inner">
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center">
+                        <svg class="icon text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-8.77"></path><path d="M22 4L12 14.01l-3-3"></path></svg>
+                        Review Your Expense
+                    </h3>
+                    <div class="grid grid-cols-2 gap-4 text-sm text-gray-700 dark:text-gray-300">
+                        <div>
+                            <span class="font-medium text-gray-500 dark:text-gray-400">Title:</span>
+                            <span id="review-title"></span>
+                        </div>
+                        <div>
+                            <span class="font-medium text-gray-500 dark:text-gray-400">Amount:</span>
+                            <span id="review-amount"></span>
+                        </div>
+                        <div>
+                            <span class="font-medium text-gray-500 dark:text-gray-400">Date:</span>
+                            <span id="review-date"></span>
+                        </div>
+                        <div>
+                            <span class="font-medium text-gray-500 dark:text-gray-400">Category:</span>
+                            <span id="review-category"></span>
+                        </div>
+                        <div class="col-span-2">
+                            <span class="font-medium text-gray-500 dark:text-gray-400">Description:</span>
+                            <p id="review-description" class="whitespace-pre-wrap"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flex justify-between items-center pt-6">
+                <button type="button" id="back-button" class="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold transition-all duration-300 transform bg-gray-200 text-gray-800 hover:bg-gray-300 shadow-md hover:shadow-lg hover:scale-105 hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg>
+                    Back
+                </button>
+                <button type="button" id="next-button" class="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold transition-all duration-300 transform bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg hover:shadow-xl hover:scale-105 ml-auto">
+                    Next
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 ml-2"><path d="m13 17 5-5-5-5"/><path d="m6 17 5-5-5-5"/></svg>
+                </button>
+                <button type="submit" id="submit-button" class="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold transition-all duration-300 transform bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg hover:shadow-xl hover:scale-105 w-full hidden">
+                    Submit Expense
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 ml-2"><path d="m22 2-7 20-4-9-9-4 20-7z"/><path d="M22 2 11 13"/></svg>
+                </button>
+                <button type="submit" id="loading-button" class="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold transition-all duration-300 transform bg-gray-400 text-gray-600 cursor-not-allowed w-full hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 animate-spin mr-2"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>
+                    Submitting...
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- JavaScript for form logic, validation, and animations -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM Elements ---
+            const form = document.getElementById('expense-form');
+            const step1 = document.getElementById('step-1');
+            const step2 = document.getElementById('step-2');
+            const step3 = document.getElementById('step-3');
+            const backButton = document.getElementById('back-button');
+            const nextButton = document.getElementById('next-button');
+            const submitButton = document.getElementById('submit-button');
+            const loadingButton = document.getElementById('loading-button');
+            const progressBar = document.getElementById('progress-bar');
+            
+            const titleInput = document.getElementById('title');
+            const amountInput = document.getElementById('amount');
+            const descriptionTextarea = document.getElementById('description');
+            const recurringCheckbox = document.getElementById('recurring');
+            
+            const titleError = document.getElementById('title-error');
+            const amountError = document.getElementById('amount-error');
+            const dateError = document.getElementById('date-error');
+            const categoryError = document.getElementById('category-error');
+
+            const stepIndicators = {
+                1: document.getElementById('step-1-indicator').querySelector('div'),
+                2: document.getElementById('step-2-indicator').querySelector('div'),
+                3: document.getElementById('step-3-indicator').querySelector('div'),
+            };
+
+            const stepTitles = {
+                1: document.getElementById('step-1-indicator').querySelector('span'),
+                2: document.getElementById('step-2-indicator').querySelector('span'),
+                3: document.getElementById('step-3-indicator').querySelector('span'),
+            };
+            
+            // --- State Management ---
+            let currentStep = 1;
+            let formData = {
+                title: '',
+                amount: '',
+                date: null,
+                category: '',
+                description: '',
+                isRecurring: false,
+            };
+
+            const CATEGORIES = [
+                { name: 'Shopping', icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`, color: 'text-rose-500' },
+                { name: 'Food', icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 12v2a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3v-2"></path><path d="M11 17a3 3 0 0 0-3 3v2h8v-2a3 3 0 0 0-3-3"></path><line x1="2" y1="22" x2="20" y2="22"></line><line x1="16" y1="2" x2="16" y2="11"></line><line x1="12" y1="2" x2="12" y2="11"></line><line x1="8" y1="2" x2="8" y2="11"></line></svg>`, color: 'text-amber-500' },
+                { name: 'Travel', icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M17.8 19.2 16 11l3.5-3.5C21.4 8.6 22 10 22 12c0 2.2-.9 4.2-2.3 5.7l-2.9 2.9"></path><path d="M15.1 21.6 10 16.5"></path><path d="M8.5 7.6 13.6 2.5"></path><path d="M7.4 3.4 4.5 6.3c-1.4 1.4-2.3 3.4-2.3 5.7s.9 4.2 2.3 5.7l.7.7"></path><path d="M10 16.5l8.7-8.7"></path><path d="M15.1 21.6c1.4-1.4 2.3-3.4 2.3-5.7s-.9-4.2-2.3-5.7"></path><path d="m7.4 3.4 8.7 8.7"></path></svg>`, color: 'text-blue-500' },
+                { name: 'Bills', icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M19 10c-1.12-1.57-2.37-2.48-4.5-2.5-4.53-.04-5.83 3.14-5.5 5.5s3.5 6.5 7 6.5c2.72 0 4.1-1.31 4.5-3.5"></path><path d="M12 17V3"></path><path d="M10 2l-.08 2.05A19.98 19.98 0 0 0 12 22"></path><path d="M10 4c0-2 2-2 2-2s2 0 2 2"></path></svg>`, color: 'text-green-500' },
+                { name: 'Work', icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2z"></path><rect x="2" y="6" width="20" height="12" rx="2" ry="2"></rect><path d="M12 2v20"></path></svg>`, color: 'text-slate-500' },
+                { name: 'Other', icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>`, color: 'text-gray-500' },
+            ];
+
+            // --- UI Functions ---
+            function updateUI() {
+                // Update Step indicators
+                document.querySelectorAll('.step-indicator').forEach(el => {
+                    el.classList.remove('bg-indigo-500', 'text-white', 'bg-green-500', 'text-gray-500');
+                    el.classList.add('bg-gray-200', 'text-gray-500');
+                    el.innerHTML = el.dataset.step;
+                });
+                document.querySelectorAll('.step-title').forEach(el => el.classList.remove('text-indigo-500', 'font-semibold'));
+                
+                // Show/hide steps
+                step1.classList.add('hidden');
+                step2.classList.add('hidden');
+                step3.classList.add('hidden');
+                backButton.classList.add('hidden');
+                nextButton.classList.add('hidden');
+                submitButton.classList.add('hidden');
+                loadingButton.classList.add('hidden');
+
+                if (currentStep === 1) {
+                    step1.classList.remove('hidden');
+                    nextButton.classList.remove('hidden');
+                } else if (currentStep === 2) {
+                    step2.classList.remove('hidden');
+                    backButton.classList.remove('hidden');
+                    nextButton.classList.remove('hidden');
+                    stepIndicators[1].classList.add('bg-green-500', 'text-white');
+                    stepIndicators[1].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><polyline points="20 6 9 17 4 12"/></svg>`;
+                    stepTitles[1].classList.add('text-indigo-500', 'font-semibold');
+                    
+                    stepIndicators[2].classList.remove('bg-gray-200', 'text-gray-500');
+                    stepIndicators[2].classList.add('bg-indigo-500', 'text-white');
+                    stepTitles[2].classList.add('text-indigo-500', 'font-semibold');
+
+                } else if (currentStep === 3) {
+                    step3.classList.remove('hidden');
+                    backButton.classList.remove('hidden');
+                    submitButton.classList.remove('hidden');
+                    stepIndicators[1].classList.add('bg-green-500', 'text-white');
+                    stepIndicators[1].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><polyline points="20 6 9 17 4 12"/></svg>`;
+                    stepTitles[1].classList.add('text-indigo-500', 'font-semibold');
+                    
+                    stepIndicators[2].classList.add('bg-green-500', 'text-white');
+                    stepIndicators[2].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><polyline points="20 6 9 17 4 12"/></svg>`;
+                    stepTitles[2].classList.add('text-indigo-500', 'font-semibold');
+                    
+                    stepIndicators[3].classList.remove('bg-gray-200', 'text-gray-500');
+                    stepIndicators[3].classList.add('bg-indigo-500', 'text-white');
+                    stepTitles[3].classList.add('text-indigo-500', 'font-semibold');
+
+                    updateReviewSummary();
+                }
+
+                // Update progress bar
+                progressBar.style.width = `${(currentStep - 1) * 50}%`;
+            }
+
+            function updateReviewSummary() {
+                document.getElementById('review-title').textContent = formData.title || 'N/A';
+                document.getElementById('review-amount').textContent = formData.amount ? `$${parseFloat(formData.amount).toFixed(2)}` : 'N/A';
+                document.getElementById('review-date').textContent = formData.date ? formData.date.toLocaleDateString() : 'N/A';
+                document.getElementById('review-category').textContent = formData.category || 'N/A';
+                document.getElementById('review-description').textContent = formData.description || 'N/A';
+            }
+
+            // --- Validation Functions ---
+            function validateStep1() {
+                let isValid = true;
+                if (!titleInput.value) {
+                    titleInput.classList.add('border-red-500');
+                    titleError.textContent = 'Expense title is required.';
+                    titleError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    titleInput.classList.remove('border-red-500');
+                    titleError.classList.add('hidden');
+                }
+                const amount = parseFloat(amountInput.value);
+                if (isNaN(amount) || amount <= 0) {
+                    amountInput.classList.add('border-red-500');
+                    amountError.textContent = 'Please enter a valid positive amount.';
+                    amountError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    amountInput.classList.remove('border-red-500');
+                    amountError.classList.add('hidden');
+                }
+                return isValid;
+            }
+
+            function validateStep2() {
+                let isValid = true;
+                if (!formData.date) {
+                    document.getElementById('date-input').classList.add('border-red-500');
+                    dateError.textContent = 'Date is required.';
+                    dateError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    document.getElementById('date-input').classList.remove('border-red-500');
+                    dateError.classList.add('hidden');
+                }
+                if (!formData.category) {
+                    document.getElementById('category-selector').classList.add('border-red-500');
+                    categoryError.textContent = 'Category is required.';
+                    categoryError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    document.getElementById('category-selector').classList.remove('border-red-500');
+                    categoryError.classList.add('hidden');
+                }
+                return isValid;
+            }
+
+            // --- Event Listeners ---
+            nextButton.addEventListener('click', () => {
+                if (currentStep === 1 && validateStep1()) {
+                    formData.title = titleInput.value;
+                    formData.amount = amountInput.value;
+                    currentStep = 2;
+                    updateUI();
+                } else if (currentStep === 2 && validateStep2()) {
+                    currentStep = 3;
+                    updateUI();
+                }
+            });
+
+            backButton.addEventListener('click', () => {
+                currentStep--;
+                updateUI();
+            });
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (currentStep === 3) {
+                    submitButton.classList.add('hidden');
+                    loadingButton.classList.remove('hidden');
+                    
+                    // Simulate an API call
+                    setTimeout(() => {
+                        console.log('Submitting form data:', formData);
+                        
+                        // Show confetti animation
+                        const confettiContainer = document.createElement('div');
+                        confettiContainer.className = 'confetti-container';
+                        document.body.appendChild(confettiContainer);
+                        for (let i = 0; i < 100; i++) {
+                            const confetti = document.createElement('div');
+                            confetti.className = 'confetti';
+                            confetti.style.left = `${Math.random() * 100}vw`;
+                            confetti.style.animationDelay = `${Math.random() * 2}s`;
+                            confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 50%)`;
+                            confettiContainer.appendChild(confetti);
+                        }
+
+                        setTimeout(() => {
+                            // Reset form and UI
+                            form.reset();
+                            formData = { title: '', amount: '', date: null, category: '', description: '', isRecurring: false, };
+                            currentStep = 1;
+                            updateUI();
+                            confettiContainer.remove();
+                        }, 3000);
+                        
+                    }, 1500);
+                }
+            });
+
+            descriptionTextarea.addEventListener('input', (e) => { formData.description = e.target.value; });
+            recurringCheckbox.addEventListener('change', (e) => { formData.isRecurring = e.target.checked; });
+            
+            // --- Date Picker Logic ---
+            const dateInput = document.getElementById('date-input');
+            const datePickerDropdown = document.getElementById('date-picker-dropdown');
+            const monthYearSpan = document.getElementById('month-year');
+            const calendarDays = document.getElementById('calendar-days');
+            const prevMonthButton = document.getElementById('prev-month');
+            const nextMonthButton = document.getElementById('next-month');
+
+            let selectedDate = null;
+            let displayDate = new Date();
+
+            function renderCalendar() {
+                calendarDays.innerHTML = '';
+                const year = displayDate.getFullYear();
+                const month = displayDate.getMonth();
+                monthYearSpan.textContent = `${displayDate.toLocaleString('default', { month: 'long' })} ${year}`;
+
+                const firstDayOfMonth = new Date(year, month, 1).getDay(); // 0 = Sunday, 1 = Monday
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                
+                // Adjust to start on Monday
+                const firstDayAdjusted = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+
+                // Add empty cells for preceding days
+                for (let i = 0; i < firstDayAdjusted; i++) {
+                    const emptyCell = document.createElement('div');
+                    emptyCell.className = 'text-center p-2';
+                    calendarDays.appendChild(emptyCell);
+                }
+
+                // Add day cells
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const dayCell = document.createElement('button');
+                    dayCell.type = 'button';
+                    dayCell.textContent = i;
+                    dayCell.className = `text-center p-2 rounded-full transition-colors duration-200`;
+                    
+                    const currentDate = new Date(year, month, i);
+                    
+                    if (selectedDate && currentDate.toDateString() === selectedDate.toDateString()) {
+                        dayCell.classList.add('bg-indigo-600', 'text-white', 'font-bold');
+                    } else if (currentDate.toDateString() === new Date().toDateString()) {
+                        dayCell.classList.add('text-indigo-500', 'font-bold');
+                    } else {
+                        dayCell.classList.add('hover:bg-gray-200', 'dark:hover:bg-gray-700');
+                    }
+
+                    dayCell.addEventListener('click', () => {
+                        selectedDate = currentDate;
+                        formData.date = selectedDate;
+                        dateInput.textContent = selectedDate.toLocaleDateString();
+                        datePickerDropdown.classList.add('hidden');
+                        renderCalendar(); // Re-render to show selection
+                    });
+
+                    calendarDays.appendChild(dayCell);
+                }
+            }
+
+            dateInput.addEventListener('click', (e) => {
+                e.stopPropagation();
+                datePickerDropdown.classList.toggle('hidden');
+                renderCalendar();
+            });
+
+            prevMonthButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                displayDate.setMonth(displayDate.getMonth() - 1);
+                renderCalendar();
+            });
+
+            nextMonthButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                displayDate.setMonth(displayDate.getMonth() + 1);
+                renderCalendar();
+            });
+
+            // Close date picker if clicked outside
+            document.addEventListener('click', (e) => {
+                if (!document.getElementById('date-picker-container').contains(e.target)) {
+                    datePickerDropdown.classList.add('hidden');
+                }
+            });
+
+            // --- Category Selector Logic ---
+            const categorySelector = document.getElementById('category-selector');
+            CATEGORIES.forEach(cat => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = `flex items-center px-4 py-3 rounded-lg shadow-sm font-medium
+                    transition-all duration-200 transform hover:scale-105
+                    bg-white dark:bg-gray-800 text-gray-500 border border-gray-300 dark:border-gray-600`;
+                button.dataset.category = cat.name;
+                button.innerHTML = `${cat.icon}<span>${cat.name}</span>`;
+                
+                button.addEventListener('click', () => {
+                    formData.category = cat.name;
+                    document.querySelectorAll('#category-selector button').forEach(btn => {
+                        btn.classList.remove('bg-white', 'dark:bg-gray-800', 'border-2', 'border-indigo-500', 'text-indigo-500');
+                        btn.classList.add('bg-white', 'dark:bg-gray-800', 'text-gray-500', 'border', 'border-gray-300', 'dark:border-gray-600');
+                    });
+                    button.classList.add('bg-white', 'dark:bg-gray-800', 'border-2', 'border-indigo-500', 'text-indigo-500');
+                });
+                
+                categorySelector.appendChild(button);
+            });
+
+            // Initial UI setup
+            updateUI();
+        });
+    </script>
+
+</body>
+</html>
