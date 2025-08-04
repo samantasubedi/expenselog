@@ -1,9 +1,16 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Navigationbar = () => {
+  const router = useRouter();
+  const session = useSession();
+
   const pathname = usePathname();
   const hidenavbar: Boolean = ["/signin"].includes(pathname); //includes is a array method that checkeks if the element exists in the array.
   // usepathmame() gives the current path of the page in which we are in, like /signin if we are in signin page.
@@ -18,21 +25,38 @@ const Navigationbar = () => {
   return (
     <div className="flex justify-center z-10 ">
       <div className="flex w-[50%] justify-evenly">
-        <Link href="/" className={navlinkclass(pathname === "/")}>
+        <button
+          onClick={() => {
+            router.push("/");
+          }}
+          className={navlinkclass(pathname === "/")}
+        >
           Home
-        </Link>
-        <Link
-          href="/myexpenses"
+        </button>
+        <button
+          onClick={() => {
+            if (session.status == "unauthenticated") {
+              toast.warn("please sign in to continue");
+            } else {
+              router.push("/myexpenses");
+            }
+          }}
           className={navlinkclass(pathname === "/myexpenses")}
         >
           My Expenses
-        </Link>
-        <Link
-          href="addexpenses"
+        </button>
+        <button
+          onClick={() => {
+            if (session.status == "unauthenticated") {
+              toast.warn("please sign in to continue");
+            } else {
+              router.push("/addexpenses");
+            }
+          }}
           className={navlinkclass(pathname === "/addexpenses")}
         >
           Add Expense
-        </Link>
+        </button>
       </div>
     </div>
   );

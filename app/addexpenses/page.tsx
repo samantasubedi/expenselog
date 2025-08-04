@@ -10,7 +10,6 @@ import Secondform from "@/components/secondform";
 const Addexpensepage = () => {
   const session = useSession();
   if (session.status === "unauthenticated") {
-    toast.warn("please signin to continue");
     return redirect("/");
   }
   return (

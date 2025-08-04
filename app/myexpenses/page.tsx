@@ -36,10 +36,6 @@ const Expensepage = () => {
   const status = session.status;
 
   if (session.status === "unauthenticated") {
-    setTimeout(() => {
-      toast.warn("please signin to continue");
-    }, 500);
-
     return redirect("/");
   }
   const username = session.data?.user?.name;

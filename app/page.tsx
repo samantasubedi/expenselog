@@ -29,7 +29,7 @@ export default function Home() {
           onClick={() => handlesignin()}
           className="font-semibold text-white bg-green-600  rounded-2xl py-2 px-5 cursor-pointer hover:bg-green-500 transition-colors ease-in-out duration-300"
         >
-          Sign In
+          {session.status == "authenticated" ? "Sign Out" : "Sign In"}
         </button>
       </div>
       <div className="mt-[5%] flex flex-col gap-10">

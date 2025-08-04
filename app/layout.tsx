@@ -31,13 +31,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navigationbar />
         <ToastContainer
           position="top-center"
           autoClose={1500}
           theme="colored"
         ></ToastContainer>
-        <Sessionproviderwrapper>{children}</Sessionproviderwrapper>
+        <Sessionproviderwrapper>
+          {" "}
+          <Navigationbar />
+          {children}
+        </Sessionproviderwrapper>
       </body>
     </html>
   );
