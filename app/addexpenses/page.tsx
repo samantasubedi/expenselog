@@ -13,7 +13,7 @@ const Addexpensepage = () => {
     return redirect("/");
   }
   return (
-    <div>
+    <div className="mb-[2%]">
       <h1 className="font-semibold text-4xl text-center text-blue-950 mt-[3%] mb-[2%]">
         Add new expense
       </h1>
@@ -50,8 +50,8 @@ const Addexpensepage = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-center mt-[5%]">
-        <Firstform></Firstform>
+      <div className="flex justify-center items-center mt-[2%]">
+        {/* <Firstform></Firstform> */}
 
         <Secondform></Secondform>
       </div>
