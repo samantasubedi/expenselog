@@ -43,6 +43,7 @@ const Secondform = () => {
           <div className="grid grid-cols-3 gap-3 bg-gray-100 p-5 rounded-2xl">
             {categories.map((currentcategory) => (
               <button
+                key={currentcategory}
                 onClick={() => {
                   setcategory(currentcategory);
                 }}
@@ -62,7 +63,7 @@ const Secondform = () => {
           </div>
         </div>
         <div className="flex justify-between">
-          <button className="cursor-pointer  flex gap-2 bg-gradient-to-r from-gray-100 to-white border-1 hover:border-purple-700 border-transparent shadow-md transition-all duration-300 ease-in-out hover:shadow-purple-900  w-fit p-2 rounded-2xl ">
+          <button className="cursor-pointer  hover:bg-sky-200  flex gap-2 bg-white border-1 hover:border-purple-700 border-transparent shadow-md transition-all duration-300 ease-in-out hover:shadow-purple-900  w-fit p-2 rounded-2xl ">
             <Icon
               icon="ion:play-back-sharp"
               className="text-2xl text-purple-800 "

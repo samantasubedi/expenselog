@@ -14,9 +14,9 @@ const Addexpensepage = () => {
   }
   return (
     <div className="mb-[2%]">
-      <h1 className="font-semibold text-4xl text-center text-blue-950 mt-[3%] mb-[2%]">
-        Add new expense
-      </h1>
+      <div className="text-3xl text-red-950 font-semibold text-center m-[3%]">
+        Keep track of where your money goes by logging your expense below.
+      </div>
       <div className="flex justify-center">
         <div className="flex   justify-evenly w-[70%]">
           <div className="flex gap-1 flex-col ">

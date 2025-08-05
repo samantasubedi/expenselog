@@ -45,7 +45,7 @@ const Firstform = () => {
           ></input>
         </div>
         <div className="flex justify-end">
-          <button className="cursor-pointer  flex  bg-gradient-to-r from-gray-100 to-white border-1 hover:border-purple-700 border-transparent shadow-md transition-all duration-300 ease-in-out hover:shadow-purple-900  w-fit p-2 rounded-2xl ">
+          <button className="cursor-pointer  flex  bg-white  hover:bg-sky-200  border-1 hover:border-purple-700 border-transparent shadow-md transition-all duration-300 ease-in-out hover:shadow-purple-900  w-fit p-2 rounded-2xl ">
             <span className="font-bold text-purple-700">Next</span>
             <Icon
               icon="carbon:next-filled"
