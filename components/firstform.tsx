@@ -8,13 +8,20 @@ const Firstform = () => {
         <div className="text-blue-900 text-center">
           Fill out the details below to track your spendings.
         </div>
-        <div className="font-bold text-xl text-center text-blue-950">
+        <div className="font-bold text-xl text-center text-blue-950 bg-neutral-300 p-2 rounded-lg">
           Basic Information
         </div>
+        <div className="bg-neutral-700 w-full h-[1px]  "></div>
         <div className="flex flex-col gap-2">
-          <span className=" font-semibold text-lg text-pink-950">
-            Expense Title{" "}
-          </span>
+          <div className="flex gap-2">
+            <Icon
+              icon="ix:subtitle-filled"
+              className="text-2xl text-pink-950"
+            />
+            <span className=" font-semibold text-lg text-pink-950">
+              Expense Title{" "}
+            </span>
+          </div>
           <input
             placeholder="eg. Medical Bills"
             type="text"
@@ -22,9 +29,15 @@ const Firstform = () => {
           ></input>
         </div>
         <div className="flex flex-col gap-2">
-          <span className=" font-semibold text-lg text-pink-950">
-            Amount. (Rs)
-          </span>
+          <div className="flex gap-2">
+            <Icon
+              icon="fa7-solid:sort-amount-up"
+              className="text-pink-950 text-xl"
+            />
+            <span className=" font-semibold text-lg text-pink-950">
+              Amount. (Rs)
+            </span>
+          </div>
           <input
             placeholder="0.00 "
             type="number"

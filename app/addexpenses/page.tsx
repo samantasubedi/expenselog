@@ -52,6 +52,8 @@ const Addexpensepage = () => {
       </div>
       <div className="flex justify-center items-center mt-[5%]">
         <Firstform></Firstform>
+
+        <Secondform></Secondform>
       </div>
     </div>
   );
