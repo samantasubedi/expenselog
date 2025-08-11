@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 export default function Home() {
   const session = useSession();
   const sessionstatus = session.status;
@@ -26,7 +26,13 @@ export default function Home() {
         <span className="text-4xl text-blue-700 font-bold">ExpenseLog</span>
 
         <button
-          onClick={() => handlesignin()}
+          onClick={() => {
+            if (session.status == "authenticated") {
+              signOut({ callbackUrl: "/" });
+            } else {
+              handlesignin();
+            }
+          }}
           className="font-semibold text-white bg-green-600  rounded-2xl py-2 px-5 cursor-pointer hover:bg-green-500 transition-colors ease-in-out duration-300"
         >
           {session.status == "authenticated" ? "Sign Out" : "Sign In"}
