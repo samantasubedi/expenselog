@@ -7,3 +7,6 @@ export const secondformschema = z.object({
   date: z.date(),
   category: z.string(),
 });
+export const thirdformschema = z.object({
+  description: z.string(),
+});

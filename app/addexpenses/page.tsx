@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { toast } from "react-toastify";
 import Firstform from "@/components/firstform";
 import Secondform from "@/components/secondform";
+import Thirdform from "@/components/thirdform";
 
 const Addexpensepage = () => {
   const session = useSession();
@@ -53,7 +54,8 @@ const Addexpensepage = () => {
       <div className="flex justify-center items-center mt-[2%]">
         {/* <Firstform></Firstform> */}
 
-        <Secondform></Secondform>
+        {/* <Secondform></Secondform> */}
+        <Thirdform></Thirdform>
       </div>
     </div>
   );
