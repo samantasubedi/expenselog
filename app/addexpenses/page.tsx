@@ -70,10 +70,7 @@ const Addexpensepage = () => {
         </div>
       </div>
       <div className="flex justify-center items-center mt-[2%]">
-        {/* <Firstform></Firstform> */}
-        {/* <Secondform></Secondform> */}
-        {/* <Thirdform></Thirdform> */}
-        {step == 1 && <Firstform></Firstform>}
+        {step == 1 && <Firstform onNext={handlenext}></Firstform>}
         {step == 2 && <Secondform></Secondform>}
         {step == 3 && <Thirdform></Thirdform>}
       </div>

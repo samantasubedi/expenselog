@@ -2,8 +2,19 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import { firstformschema } from "@/app/schema/validationschema";
 import { z } from "zod";
-const Firstform = () => {
+type FormDataType = {
+  expensetitle: string;
+  amount: number;
+  date: string;
+  category: string;
+  description: string;
+};
+type FirstFormProps = {
+  onNext: (data: Partial<FormDataType>) => void;
+};
+const Firstform = (onNext: FirstFormProps) => {
   type firstformdata = z.infer<typeof firstformschema>; //it extracts the typescript type form zod schema called firstformschema
+
   return (
     <div className="bg-gradient-to-r from-neutral-200 to-gray-200 p-5 border-1 shadow-md shadow-gray-500 rounded-2xl w-[40%] hover:shadow-xl transition-all duration-300 ease-in-out hover:shadow-neutral-600">
       <div className="flex flex-col gap-5">
