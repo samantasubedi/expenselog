@@ -21,7 +21,7 @@ export default function Home() {
   }
 
   return (
-    <div className="">
+    <div className="bg-[url('/expenselogbg.png')] h-full bg-center bg-cover bg-slate-400">
       <div className="flex flex-row justify-between p-5">
         <span className="text-4xl text-blue-700 font-bold">ExpenseLog</span>
 

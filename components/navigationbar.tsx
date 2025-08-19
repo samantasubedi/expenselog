@@ -23,8 +23,8 @@ const Navigationbar = () => {
     } transition-all duration-300 font-bold text-xl text-purple-900 font-mono`;
 
   return (
-    <div className="flex justify-center z-10 ">
-      <div className="flex w-[50%] justify-evenly">
+    <div className="flex justify-center z-10 rounded-3xl p-2  border-gray-400 mt-1 bg-gradient-to-r from-neutral-100 to-neutral-300 ">
+      <div className="flex w-[50%] justify-evenly ">
         <button
           onClick={() => {
             router.push("/");
