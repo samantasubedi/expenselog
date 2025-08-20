@@ -69,7 +69,7 @@ export default function Home() {
       </div>
 
       <div className="h-[400px]  flex justify-center mt-[3%] mb-[3%]">
-        <div className="bg-blue-100 w-[50%] text-center rounded-2xl p-2">
+        <div className="bg-slate-200 w-[50%] text-center rounded-2xl p-2">
           Preview video
         </div>
       </div>
