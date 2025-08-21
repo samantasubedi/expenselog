@@ -45,7 +45,7 @@ const Addexpensepage = () => {
                 className="rounded-full bg-purple-500 text-white text-5xl border-5 border-green-500"
               />
             )}
-            {step == 2 && (
+            {(step == 2 || step == 3) && (
               <Icon
                 icon="teenyicons:tick-circle-solid"
                 className="text-5xl bg-white rounded-full text-green-500"
@@ -59,7 +59,9 @@ const Addexpensepage = () => {
           <div className="flex gap-1 flex-col ">
             <Icon
               icon="mynaui:two"
-              className="rounded-full bg-purple-500 text-white text-5xl"
+              className={`rounded-full bg-purple-500 text-white text-5xl ${
+                step == 2 ? "border-5 border-green-500" : ""
+              }`}
             />
             <div className="font-semibold text-xl text-purple-950">
               Date & Type
