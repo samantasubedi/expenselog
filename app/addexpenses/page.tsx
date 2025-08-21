@@ -32,7 +32,7 @@ const Addexpensepage = () => {
     setstep((currentstep) => currentstep - 1);
   };
   return (
-    <div className="mb-[2%]">
+    <div className="mb-[2%]   bg-[url('/addexpensebg.png')] h-full bg-center bg-cover ">
       <div className="text-3xl text-red-950 font-semibold text-center m-[3%]">
         Keep track of where your money goes by logging your expense below.
       </div>
