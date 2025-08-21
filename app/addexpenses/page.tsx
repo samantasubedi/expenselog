@@ -39,10 +39,18 @@ const Addexpensepage = () => {
       <div className="flex justify-center">
         <div className="flex   justify-evenly w-[70%]">
           <div className="flex gap-1 flex-col ">
-            <Icon
-              icon="mynaui:one"
-              className="rounded-full bg-purple-500 text-white text-5xl"
-            />
+            {step == 1 && (
+              <Icon
+                icon="mynaui:one"
+                className="rounded-full bg-purple-500 text-white text-5xl border-5 border-green-500"
+              />
+            )}
+            {step == 2 && (
+              <Icon
+                icon="teenyicons:tick-circle-solid"
+                className="text-5xl bg-white rounded-full text-green-500"
+              />
+            )}
             <div className="font-semibold text-xl text-purple-950">
               Basic Info
             </div>
