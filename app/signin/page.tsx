@@ -14,7 +14,7 @@ const Signinpage = () => {
     <div className="h-screen flex justify-center items-center bg-gray-600">
       {loading && (
         <div className="flex gap-2 absolute top-[5%] bg-white w-fit px-5 py-1 rounded-2xl">
-          <p className="text-green-500 text-bold text-3xl">Signning In</p>
+          <p className="text-green-700 text-bold text-3xl">Signning In</p>
           <Icon
             icon="eos-icons:bubble-loading"
             className="text-green-500 text-3xl"

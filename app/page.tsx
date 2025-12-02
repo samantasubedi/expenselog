@@ -33,7 +33,11 @@ export default function Home() {
               handlesignin();
             }
           }}
-          className="font-semibold text-white bg-green-600  rounded-2xl py-2 px-5 cursor-pointer hover:bg-green-500 transition-colors ease-in-out duration-300"
+          className={`font-semibold text-white rounded-2xl py-2 px-5 cursor-pointer transition-colors ease-in-out duration-300 ${
+            session.status === "authenticated"
+              ? "bg-red-700 hover:bg-red-600"
+              : "bg-green-600 hover:bg-green-500"
+          }`}
         >
           {session.status == "authenticated" ? "Sign Out" : "Sign In"}
         </button>
