@@ -27,22 +27,66 @@
 import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 import React from "react";
 import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const Expensepage = () => {
   const session = useSession();
   const status = session.status;
-
   if (session.status === "unauthenticated") {
     return redirect("/");
   }
   const username = session.data?.user?.name;
   const useremail = session.data?.user?.email;
+  const query = useQuery({
+    queryKey: ["allexpenses"],
+    queryFn: async () => {
+      const response = await axios.get("/api/user", {
+        params: { email: useremail },
+      });
+      return response.data;
+    },
+    enabled: !!useremail,
+  });
+  if (query.isLoading) {
+    return <div>loading</div>;
+  }
   return (
     <div className="">
-      <div>My Expenses</div>
+      <div>Your All Expenses appears here</div>
+
+      <div className="grid grid-cols-2 gap-4 ">
+        {query.data &&
+          query.data.retrivedExpense.map(
+            (i: {
+              title: string;
+              date: Date;
+              description: string;
+              amount: number;
+              category: string;
+              id: string;
+            }) => {
+              return (
+                <div
+                  key={i.id}
+                  className="bg-gray-200 rounded-3xl p-5 hover:transform ease-in-out hover:bg-gray-400 cursor-pointer"
+                >
+                  <div>
+                    <div>{moment(i.date).format("YYYY-MM-DD HH:MM:SS A")}</div>
+                    <div>{i.title}</div>
+                    <div>{i.category}</div>
+                    <div>{i.amount}</div>
+                    <div>{i.description}</div>
+                  </div>
+                </div>
+              );
+            }
+          )}
+      </div>
       <div>hello {username} </div>
       <button
         className="bg-red-500 text-white font-bold p-2 rounded-2xl cursor-pointer"

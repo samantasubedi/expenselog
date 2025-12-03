@@ -4,11 +4,38 @@ import { Icon } from "@iconify/react";
 import { useForm, useFormContext } from "react-hook-form";
 import { T_CreateExpenseType } from "@/app/schema/validationschema";
 import { z } from "zod";
+import { prisma } from "@/models/expense";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { toast } from "react-toastify";
 
 const Thirdform: FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }> = ({ setStep }) => {
   const form = useFormContext<T_CreateExpenseType>();
+  const session = useSession();
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const data = form.getValues();
+      const response = await axios.post("/api/user", {
+        ...data,
+        userEmail: session.data?.user?.email,
+        date: new Date(data.date),
+      });
+      return response.data;
+    },
+
+    onSuccess: () => {
+      toast.success("Expense created Successfully");
+      form.reset();
+      setStep(1);
+    },
+    onError: () => {
+      toast.error("cannot update your data");
+    },
+  });
 
   return (
     <form
@@ -16,7 +43,9 @@ const Thirdform: FC<{
       onSubmit={async (e) => {
         e.preventDefault();
         const isValid = await form.trigger(["description"]);
+        console.log(isValid);
         if (isValid) {
+          mutation.mutate();
         }
       }}
     >
@@ -62,8 +91,14 @@ const Thirdform: FC<{
               <span className="font-bold text-purple-700">Back</span>
             </button>
 
-            <button className="cursor-pointer  flex  bg-white  hover:bg-sky-200  border-1 hover:border-purple-700 border-transparent shadow-md transition-all duration-300 ease-in-out hover:shadow-purple-900  w-fit p-2 rounded-2xl ">
-              <span className="font-bold text-purple-700">Next</span>
+            <button
+              disabled={mutation.isPending}
+              className="cursor-pointer  flex  bg-white  hover:bg-sky-200  border-1 hover:border-purple-700 border-transparent shadow-md transition-all duration-300 ease-in-out hover:shadow-purple-900  w-fit p-2 rounded-2xl "
+            >
+              <span className="font-bold text-purple-700">
+                {" "}
+                {mutation.isPending ? "Creating..." : "CReate"}{" "}
+              </span>
               <Icon
                 icon="carbon:next-filled"
                 className="text-2xl text-purple-800"

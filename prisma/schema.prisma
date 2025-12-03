@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Expense {
+  id          String   @id @default(cuid())
+  title       String
+  amount      Float
+  category    String
+  date        DateTime
+  description String?
+  userEmail   String
+  createdAt   DateTime @default(now())
+}
