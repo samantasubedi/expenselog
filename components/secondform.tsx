@@ -30,7 +30,7 @@ const Secondform: FC<{
         }
       }}
     >
-      <div className="bg-gradient-to-r from-neutral-200 to-gray-200 p-5 border-1 shadow-md shadow-gray-500 rounded-2xl  hover:shadow-xl transition-all duration-300 ease-in-out hover:shadow-neutral-600">
+      <div className="bg-linear-to-r from-neutral-200 to-gray-200 p-5 border shadow-md shadow-gray-500 rounded-2xl  hover:shadow-xl transition-all duration-300 ease-in-out hover:shadow-neutral-600">
         <div className="flex flex-col gap-5">
           <div className="text-blue-900 text-center">
             Fill out the details below to track your spendings.
@@ -38,7 +38,7 @@ const Secondform: FC<{
           <div className="font-bold text-xl text-center text-blue-950 bg-neutral-300 p-2 rounded-lg">
             Date & Type
           </div>
-          <div className="bg-neutral-700 w-full h-[1px]  "></div>
+          <div className="bg-neutral-700 w-full h-px  "></div>
           <div className="flex flex-col gap-2">
             <div className="flex gap-2">
               <Icon icon="uiw:date" className="text-xl text-pink-950" />
@@ -88,7 +88,7 @@ const Secondform: FC<{
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="cursor-pointer  hover:bg-sky-200  flex gap-2 bg-white border-1 hover:border-purple-700 border-transparent shadow-md transition-all duration-300 ease-in-out hover:shadow-purple-900  w-fit p-2 rounded-2xl "
+              className="cursor-pointer  hover:bg-sky-200  flex gap-2 bg-white border hover:border-purple-700 border-transparent shadow-md transition-all duration-300 ease-in-out hover:shadow-purple-900  w-fit p-2 rounded-2xl "
             >
               <Icon
                 icon="ion:play-back-sharp"
@@ -96,7 +96,7 @@ const Secondform: FC<{
               />
               <span className="font-bold text-purple-700">Back</span>
             </button>
-            <button className="cursor-pointer  flex gap-2  bg-white border-1 hover:border-purple-700 hover:bg-sky-200 border-transparent shadow-md transition-all duration-300 ease-in-out hover:shadow-purple-900  w-fit p-2 rounded-2xl ">
+            <button className="cursor-pointer  flex gap-2  bg-white border hover:border-purple-700 hover:bg-sky-200 border-transparent shadow-md transition-all duration-300 ease-in-out hover:shadow-purple-900  w-fit p-2 rounded-2xl ">
               <span className="font-bold text-purple-700">Next</span>
               <Icon
                 icon="carbon:next-filled"
