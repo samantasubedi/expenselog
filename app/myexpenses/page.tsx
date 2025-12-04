@@ -33,6 +33,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { Icon } from "@iconify/react";
 
 const Expensepage = () => {
   const session = useSession();
@@ -53,13 +54,28 @@ const Expensepage = () => {
     enabled: !!useremail,
   });
   if (query.isLoading) {
-    return <div>loading</div>;
+    return (
+      <div className="flex justify-center gap-3">
+        <div className="text-4xl font-semibold text-amber-700">loading</div>
+        <Icon icon="eos-icons:loading" className="text-4xl text-amber-700" />
+      </div>
+    );
   }
   return (
     <div className="">
-      <div>Your All Expenses appears here</div>
+      <div className="flex justify-end-safe">
+        <button
+          className="bg-red-500 text-white font-bold p-2 rounded-2xl cursor-pointer mr-4"
+          onClick={() => signOut({ callbackUrl: "/" })}
+        >
+          Sign out
+        </button>
+      </div>
+      <div className="text-3xl text-center m-4 text-gray-500 font-semibold">
+        Your All Expenses appears here
+      </div>
 
-      <div className="grid grid-cols-2 gap-4 ">
+      <div className="grid grid-cols-2 gap-4 m-2">
         {query.data &&
           query.data.retrivedExpense.map(
             (i: {
@@ -73,27 +89,47 @@ const Expensepage = () => {
               return (
                 <div
                   key={i.id}
-                  className="bg-gray-200 rounded-3xl p-5 hover:transform ease-in-out hover:bg-gray-400 cursor-pointer"
+                  className="bg-gray-200 rounded-3xl p-5 hover:transform duration-400 ease-in-out hover:bg-blue-100 cursor-pointer"
                 >
                   <div>
-                    <div>{moment(i.date).format("YYYY-MM-DD HH:MM:SS A")}</div>
-                    <div>{i.title}</div>
-                    <div>{i.category}</div>
-                    <div>{i.amount}</div>
-                    <div>{i.description}</div>
+                    <div className="font-bold text-3xl text-orange-800 text-center bg-cyan-50 rounded-2xl mb-3">
+                      {i.title}
+                    </div>
+                    <div className="font-semibold text-xl text-red-950">
+                      Expense added at :{" "}
+                      {moment(i.date).format("YYYY-MM-DD HH:MM:SS A")}
+                    </div>
+                    <div className="font-semibold text-xl text-red-950">
+                      Expense Category : {i.category}
+                    </div>
+                    <div className="font-semibold text-xl text-red-950">
+                      {" "}
+                      Expense Amount : {i.amount}
+                    </div>
+                    {i.description && (
+                      <div className="font-semibold text-xl text-red-950">
+                        Description : {i.description}
+                      </div>
+                    )}
+                    <div className="flex justify-between mt-5">
+                      <button className="flex flex-row gap-2 font-semibold text-lg text-yellow-900 bg-amber-100 rounded-3xl p-2 cursor-pointer hover:bg-amber-200">
+                        <div>Edit</div>
+                        <Icon
+                          icon="iconamoon:edit-thin"
+                          className="text-2xl text-yellow-900"
+                        />
+                      </button>
+                      <button className="flex flex-row gap-2 font-semibold text-lg text-red-800 bg-red-100 rounded-3xl p-2 cursor-pointer hover:bg-red-200 ">
+                        <div>Delete</div>
+                        <Icon icon="ic:baseline-delete" className="text-2xl" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               );
             }
           )}
       </div>
-      <div>hello {username} </div>
-      <button
-        className="bg-red-500 text-white font-bold p-2 rounded-2xl cursor-pointer"
-        onClick={() => signOut({ callbackUrl: "/" })}
-      >
-        Sign out
-      </button>
     </div>
   );
 };

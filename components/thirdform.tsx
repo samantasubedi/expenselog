@@ -97,7 +97,7 @@ const Thirdform: FC<{
             >
               <span className="font-bold text-purple-700">
                 {" "}
-                {mutation.isPending ? "Creating..." : "CReate"}{" "}
+                {mutation.isPending ? "Creating..." : "Confirm"}{" "}
               </span>
               <Icon
                 icon="carbon:next-filled"
