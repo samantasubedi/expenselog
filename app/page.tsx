@@ -3,10 +3,34 @@ import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  ArrowBigRight,
+  ChartSpline,
+  ClipboardCheck,
+  UserRoundCheck,
+} from "lucide-react";
 export default function Home() {
   const session = useSession();
   const sessionstatus = session.status;
-  console.log(sessionstatus);
+
+  const Steps = [
+    {
+      title: "Create Your Account",
+      desc: "Sign up in seconds with your Google account",
+      icon: UserRoundCheck,
+    },
+    {
+      title: "Log Your Expenses",
+      desc: "Quickly add transactions on the go.",
+      icon: ClipboardCheck,
+    },
+    {
+      title: "Gain Insights",
+      desc: "See clear reports and make informed financial choices.",
+      icon: ChartSpline,
+    },
+  ];
 
   const router = useRouter();
   function handlesignin() {
@@ -77,50 +101,69 @@ export default function Home() {
           Preview video
         </div>
       </div>
-      <div className="flex justify-evenly p-5 ">
-        <div className="flex bg-yellow-100 flex-col gap-3 rounded-2xl p-3">
-          <div className="flex justify-center">
-            <span className="bg-purple-400 size-10 text-center rounded-full p-1 text-2xl font-bold">
-              1
-            </span>
-          </div>
-          <div className="flex justify-center">
-            <span className="text-xl font-semibold"> Create Your Account</span>
-          </div>
-          <span className="text-xl">
-            Sign up in seconds with your Google account.
-          </span>
-        </div>
-        <div className="flex flex-col items-center justify-center">
+      <div className="grid grid-cols-3 px-5 gap-5">
+        {Steps.map((i, index) => {
+          return (
+            <div key={index} className="flex items-center gap-8">
+              <Card className="flex-1 bg-neutral-100">
+                <CardContent className="p-3">
+                  <div className="flex flex-col gap-3 rounded-2xl">
+                    <div className="flex justify-center">
+                      <span className="bg-purple-400 p-4 flex items-center justify-center text-center rounded-full  text-2xl font-bold text-white">
+                        {<i.icon size={50} />}
+                      </span>
+                    </div>
+                    <div className="flex justify-center">
+                      <span className="text-xl font-semibold"> {i.title}</span>
+                    </div>
+                    <span className=" text-muted-foreground text-center">
+                      {i.desc}
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+              {index !== 2 && (
+                <ArrowBigRight
+                  size={45}
+                  className="text-muted-foreground "
+                ></ArrowBigRight>
+              )}
+            </div>
+          );
+        })}
+
+        {/* <div className="flex flex-col items-center justify-center">
           <Icon icon="teenyicons:arrow-right-solid" className="text-7xl " />
         </div>
         <div className="flex flex-col bg-yellow-100 rounded-2xl p-3 gap-3">
           <div className="flex justify-center">
-            <span className="bg-pink-400 size-10 text-center rounded-full p-1 text-2xl font-bold">
+            <span className="bg-pink-400 size-10 text-center rounded-full p-1 text-2xl font-bold text-white">
               2
             </span>
           </div>
           <div className="flex justify-center">
             <span className="text-xl font-semibold"> Log Your Expenses</span>
           </div>
-          <span className="text-xl">Quickly add transactions on the go.</span>
+          <span className="text-xl text-muted-foreground">
+            Quickly add transactions on the go.
+          </span>
         </div>
         <div className="flex flex-col items-center justify-center">
           <Icon icon="teenyicons:arrow-right-solid" className="text-7xl " />
         </div>
         <div className="flex flex-col bg-yellow-100 rounded-2xl p-3 gap-3">
           <div className="flex justify-center">
-            <span className="bg-red-400 size-10 text-center rounded-full p-1 text-2xl font-bold">
+            <span className="bg-red-400 size-10 text-center rounded-full p-1 text-2xl font-bold text-white">
               3
             </span>
           </div>
           <div className="flex justify-center">
             <span className="text-xl font-semibold"> Gain Insights</span>
           </div>
-          <span className="text-xl">
+          <span className="text-xl text-muted-foreground">
             See clear reports and make informed financial choices.
           </span>
-        </div>
+        </div> */}
       </div>
       <footer className="mt-[3%] bg-neutral-200">
         <div className="flex flex-col justify-center items-center gap-3">

@@ -85,8 +85,13 @@ const Expensepage = () => {
         </button>
       </div>
       <div className="text-3xl text-center m-4 text-gray-500 font-semibold">
-        Your All Expenses appears here
+        Your All Expenses appear here
       </div>
+      {!query.data && (
+        <div className="text-center font-semibold text-7xl text-red-400 bg-gray-200 p-3 rounded-2xl ">
+          No Expense found !
+        </div>
+      )}
 
       <div className="grid grid-cols-2 gap-4 m-2">
         {query.data &&
