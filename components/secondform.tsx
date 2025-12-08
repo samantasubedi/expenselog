@@ -50,6 +50,9 @@ const Secondform: FC<{
               {...form.register("date")}
               className="text-lg bg-purple-50 rounded-2xl p-2  text-pink-950 transition-all duration-300 ease-in-out hover:border-pink-950 border-transparent  border-2"
             ></input>
+            <span className="text-red-600">
+              {form.formState.errors.date?.message}
+            </span>
           </div>
           <div className="flex flex-col gap-2">
             <div className="flex gap-2">
@@ -83,6 +86,9 @@ const Secondform: FC<{
                 </button>
               ))}
             </div>
+            <span className="text-red-600">
+              {form.formState.errors.category?.message}
+            </span>
           </div>
           <div className="flex justify-between">
             <button

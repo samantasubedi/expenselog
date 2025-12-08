@@ -70,7 +70,7 @@ const Thirdform: FC<{
             </div>
             <input
               {...form.register("description")}
-              placeholder=" Write something about your expenses"
+              placeholder=" Write something about your expenses (Optional)"
               type="text"
               className="text-lg bg-purple-50 rounded-2xl p-2  text-pink-950 transition-all duration-300 ease-in-out hover:border-pink-950 border-transparent  border-2"
             ></input>

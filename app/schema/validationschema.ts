@@ -1,10 +1,12 @@
 import { number, z } from "zod";
 
 export const CreateExpenseSchema = z.object({
-  title: z.string().min(1, "Title is Required !"),
-  amount: z.coerce.number().min(1, "Amount must me nore tna 1"),
-  date: z.coerce.date(),
-  category: z.string(),
+  title: z.string().min(1, "Please enter an title for your expense !"),
+  amount: z.coerce
+    .number({ message: "Please enter an amount !" })
+    .positive("Amount must be positive !"),
+  date: z.coerce.date().min(1, "Please enter a date !"),
+  category: z.string().min(1, "Please enter a category !"),
   description: z.string(),
 });
 
