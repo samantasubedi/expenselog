@@ -1,3 +1,4 @@
+"use client";
 //  THE COMMENTED PART IS HOW WE ACCESS SESSION IN SERVER COMPONENT, IT WAS NOT RELAVENT FOR ME TO MAKE IT SEVER COMPONENT SO I CONVERTED IT TO CLIENT COMPONENT
 // import React from "react";
 // import { getServerSession } from "next-auth";
@@ -23,9 +24,8 @@
 //     };
 //   }
 // }
-"use client";
 import { signOut, useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import moment from "moment";
 
@@ -34,8 +34,10 @@ import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Icon } from "@iconify/react";
+import { useRouter } from "next/navigation";
 
 const Expensepage = () => {
+  const router = useRouter();
   const session = useSession();
   const status = session.status;
   if (session.status === "unauthenticated") {
@@ -61,6 +63,17 @@ const Expensepage = () => {
       </div>
     );
   }
+  // const searchparams=useSearchParams()
+  // const editId=searchparams.get("id")
+  // const updatequery=useQuery({
+  //   queryFn:async()=>{
+  //     queryKey:["singleexpense"],
+  //     const res = await axios.get(`/api/user? id=${editId}`);
+  //     return res.data.expense
+
+  //   },
+
+  // })
   return (
     <div className="">
       <div className="flex justify-end-safe">
@@ -112,7 +125,10 @@ const Expensepage = () => {
                       </div>
                     )}
                     <div className="flex justify-between mt-5">
-                      <button className="flex flex-row gap-2 font-semibold text-lg text-yellow-900 bg-amber-100 rounded-3xl p-2 cursor-pointer hover:bg-amber-200">
+                      <button
+                        onClick={() => router.push(`/addexpenses?id=${i.id}`)}
+                        className="flex flex-row gap-2 font-semibold text-lg text-yellow-900 bg-amber-100 rounded-3xl p-2 cursor-pointer hover:bg-amber-200"
+                      >
                         <div>Edit</div>
                         <Icon
                           icon="iconamoon:edit-thin"

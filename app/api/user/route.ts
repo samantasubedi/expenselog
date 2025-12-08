@@ -31,3 +31,7 @@ export async function GET(req: Request) {
   });
   return NextResponse.json({ retrivedExpense });
 }
+export async function PATCH(req: Request, { params }: any) {
+  try {
+  } catch {}
+}
