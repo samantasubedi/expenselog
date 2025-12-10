@@ -11,6 +11,9 @@ import z, { number } from "zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateExpenseSchema } from "../schema/validationschema";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import axios from "axios";
 
 const Addexpensepage = () => {
   const session = useSession();
@@ -18,17 +21,41 @@ const Addexpensepage = () => {
     return redirect("/");
   }
   const [step, setstep] = useState(1);
-
   const createExpenseForm = useForm({
     resolver: zodResolver(CreateExpenseSchema),
     defaultValues: {
-      amount: "",
-      category: "",
-      date: new Date(),
-      description: "",
       title: "",
+      amount: "",
+      date: new Date(),
+      category: "",
+      description: "",
     },
   });
+  const searchparams = useSearchParams();
+  const expenseid = searchparams.get("id");
+  useEffect(() => {
+    if (!expenseid) {
+      return;
+    }
+    const fetchexpense = async () => {
+      try {
+        const res = await axios.get("/api/expense", {
+          params: { id: expenseid },
+        });
+        const editingdata = res.data;
+        createExpenseForm.reset({
+          title: editingdata.title,
+          amount: editingdata.amount,
+          date: new Date(editingdata.date),
+          category: editingdata.category,
+          description: editingdata.description ?? "",
+        });
+      } catch (error) {
+        toast.error("Couldn't load the expense");
+      }
+    };
+    fetchexpense();
+  }, [expenseid, createExpenseForm]);
 
   return (
     <div className="mb-[2%]   bg-[url('/addexpensebg.png')] h-full bg-center bg-cover ">

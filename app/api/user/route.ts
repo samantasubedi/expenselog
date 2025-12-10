@@ -26,10 +26,18 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const email = searchParams.get("email");
-  const retrivedExpense = await prisma.expense.findMany({
+  const userid = searchParams.get("id");
+  if (userid) {
+    const retrivedExpense = await prisma.expense.findFirst({
+      where: { id: userid, userEmail: email || "" },
+    });
+
+    return NextResponse.json(retrivedExpense);
+  }
+  const retrivedExpenses = await prisma.expense.findMany({
     where: { userEmail: email || "" },
   });
-  return NextResponse.json({ retrivedExpense });
+  return NextResponse.json({ retrivedExpenses });
 }
 export async function PATCH(req: Request, { params }: any) {
   try {

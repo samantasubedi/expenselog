@@ -95,7 +95,7 @@ const Expensepage = () => {
 
       <div className="grid grid-cols-2 gap-4 m-2">
         {query.data &&
-          query.data.retrivedExpense.map(
+          query.data.retrivedExpenses.map(
             (i: {
               title: string;
               date: Date;
