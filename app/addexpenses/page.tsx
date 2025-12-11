@@ -14,6 +14,7 @@ import { CreateExpenseSchema } from "../schema/validationschema";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 const Addexpensepage = () => {
   const session = useSession();
@@ -33,29 +34,29 @@ const Addexpensepage = () => {
   });
   const searchparams = useSearchParams();
   const expenseid = searchparams.get("id");
+
+  const query = useQuery({
+    queryKey: ["single-expense", expenseid],
+    queryFn: async () => {
+      const res = await axios.get("/api/user", {
+        params: { id: expenseid },
+      });
+      return res.data;
+    },
+    enabled: !!expenseid,
+  });
+
   useEffect(() => {
-    if (!expenseid) {
-      return;
+    if (query.isSuccess && query.data) {
+      createExpenseForm.reset({
+        title: query.data.title,
+        amount: query.data.amount,
+        date: query.data.date,
+        category: query.data.category,
+        description: query.data.description ?? "",
+      });
     }
-    const fetchexpense = async () => {
-      try {
-        const res = await axios.get("/api/expense", {
-          params: { id: expenseid },
-        });
-        const editingdata = res.data;
-        createExpenseForm.reset({
-          title: editingdata.title,
-          amount: editingdata.amount,
-          date: new Date(editingdata.date),
-          category: editingdata.category,
-          description: editingdata.description ?? "",
-        });
-      } catch (error) {
-        toast.error("Couldn't load the expense");
-      }
-    };
-    fetchexpense();
-  }, [expenseid, createExpenseForm]);
+  }, [query.isSuccess, query.data]);
 
   return (
     <div className="mb-[2%]   bg-[url('/addexpensebg.png')] h-full bg-center bg-cover ">

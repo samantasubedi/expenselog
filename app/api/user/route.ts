@@ -27,13 +27,15 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const email = searchParams.get("email");
   const userid = searchParams.get("id");
+  console.log(userid);
   if (userid) {
-    const retrivedExpense = await prisma.expense.findFirst({
-      where: { id: userid, userEmail: email || "" },
+    const updatingExpense = await prisma.expense.findFirst({
+      where: { id: userid },
     });
 
-    return NextResponse.json(retrivedExpense);
+    return NextResponse.json(updatingExpense);
   }
+
   const retrivedExpenses = await prisma.expense.findMany({
     where: { userEmail: email || "" },
   });
