@@ -31,7 +31,7 @@ import moment from "moment";
 
 import React from "react";
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
@@ -55,6 +55,23 @@ const Expensepage = () => {
     },
     enabled: !!useremail,
   });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await axios.delete("/api/user", {
+        params: { id },
+      });
+      return res;
+    },
+    onSuccess: () => {
+      toast.success("Expense deleted !");
+      query.refetch();
+    },
+    onError: () => {
+      toast.error("Deletion failed !");
+    },
+  });
+
   if (query.isLoading) {
     return (
       <div className="flex justify-center gap-3">
@@ -63,17 +80,7 @@ const Expensepage = () => {
       </div>
     );
   }
-  // const searchparams=useSearchParams()
-  // const editId=searchparams.get("id")
-  // const updatequery=useQuery({
-  //   queryFn:async()=>{
-  //     queryKey:["singleexpense"],
-  //     const res = await axios.get(`/api/user? id=${editId}`);
-  //     return res.data.expense
 
-  //   },
-
-  // })
   return (
     <div className="">
       <div className="flex justify-end-safe">
@@ -140,7 +147,12 @@ const Expensepage = () => {
                           className="text-2xl text-yellow-900"
                         />
                       </button>
-                      <button className="flex flex-row gap-2 font-semibold text-lg text-red-800 bg-red-100 rounded-3xl p-2 cursor-pointer hover:bg-red-200 ">
+                      <button
+                        onClick={() => {
+                          deleteMutation.mutate(i.id);
+                        }}
+                        className="flex flex-row gap-2 font-semibold text-lg text-red-800 bg-red-100 rounded-3xl p-2 cursor-pointer hover:bg-red-200 "
+                      >
                         <div>Delete</div>
                         <Icon icon="ic:baseline-delete" className="text-2xl" />
                       </button>

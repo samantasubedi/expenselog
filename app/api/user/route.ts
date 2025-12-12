@@ -45,3 +45,12 @@ export async function PATCH(req: Request, { params }: any) {
   try {
   } catch {}
 }
+export async function DELETE(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const deletingid = searchParams.get("id") || "";
+  const exists = await prisma.expense.findFirst({ where: { id: deletingid } });
+  if (!exists) return NextResponse.json({ message: "Epxnese not found" });
+  console.log(deletingid);
+  await prisma.expense.delete({ where: { id: deletingid } });
+  return NextResponse.json({});
+}
