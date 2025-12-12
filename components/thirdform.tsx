@@ -6,25 +6,37 @@ import { T_CreateExpenseType } from "@/app/schema/validationschema";
 import { z } from "zod";
 import { prisma } from "@/models/expense";
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
+import { useSearchParams } from "next/navigation";
 
 const Thirdform: FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }> = ({ setStep }) => {
   const form = useFormContext<T_CreateExpenseType>();
   const session = useSession();
-
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async () => {
       const data = form.getValues();
-      const response = await axios.post("/api/user", {
-        ...data,
-        userEmail: session.data?.user?.email,
-        date: new Date(data.date),
-      });
-      return response.data;
+
+      if (id) {
+        const response = await axios.patch("/api/user", {
+          ...data,
+          userEmail: session.data?.user?.email,
+          date: new Date(data.date),
+        });
+      } else {
+        const response = await axios.post("/api/user", {
+          ...data,
+          userEmail: session.data?.user?.email,
+          date: new Date(data.date),
+        });
+        return response.data;
+      }
     },
 
     onSuccess: () => {
@@ -33,7 +45,24 @@ const Thirdform: FC<{
       setStep(1);
     },
     onError: () => {
-      toast.error("cannot update your data");
+      toast.error("Cannot add your data");
+    },
+  });
+  const updateMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await axios.patch("/api/user", form.getValues(), {
+        params: { id },
+      });
+      return res;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["allexpenses"] });
+      toast.success("Expense updated Sucessfully");
+      form.reset();
+      setStep(1);
+    },
+    onError: () => {
+      toast.error("Update failed !");
     },
   });
 
@@ -45,7 +74,11 @@ const Thirdform: FC<{
         const isValid = await form.trigger(["description"]);
         console.log(isValid);
         if (isValid) {
-          mutation.mutate();
+          if (id) {
+            updateMutation.mutate(id);
+          } else {
+            mutation.mutate();
+          }
         }
       }}
     >
