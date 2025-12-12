@@ -29,7 +29,7 @@ import { redirect, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import moment from "moment";
 
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -45,6 +45,7 @@ const Expensepage = () => {
   }
   const username = session.data?.user?.name;
   const useremail = session.data?.user?.email;
+  const [confirm, setconfirm] = useState(false);
   const query = useQuery({
     queryKey: ["allexpenses"],
     queryFn: async () => {
@@ -116,6 +117,32 @@ const Expensepage = () => {
                   key={i.id}
                   className="bg-gray-200 rounded-3xl p-5 hover:transform duration-400 ease-in-out hover:bg-blue-100 cursor-pointer"
                 >
+                  {confirm && (
+                    <div className="flex flex-col gap-5 absolute bg-red-100 border-2 rounded-2xl p-3 mt-[5%] ml-[25%]">
+                      <div className="font-semibold text-3xl text-red-900">
+                        Are you sure you want to delete this expense ?
+                      </div>
+                      <div className="flex justify-evenly">
+                        <button
+                          className="bg-red-600 text-lg rounded-2xl p-1 font-bold text-white border-2 border-red-600 hover:border-black cursor-pointer"
+                          onClick={() => {
+                            deleteMutation.mutate(i.id);
+                            setconfirm(false);
+                          }}
+                        >
+                          Delete
+                        </button>
+                        <button
+                          className="bg-blue-900 text-lg rounded-2xl p-1 font-bold text-white border-2 border-blue-900 hover:border-black cursor-pointer"
+                          onClick={() => {
+                            setconfirm(false);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  )}
                   <div>
                     <div className="font-bold text-3xl text-orange-800 text-center bg-cyan-50 rounded-2xl mb-3">
                       {i.title}
@@ -149,7 +176,7 @@ const Expensepage = () => {
                       </button>
                       <button
                         onClick={() => {
-                          deleteMutation.mutate(i.id);
+                          setconfirm(true);
                         }}
                         className="flex flex-row gap-2 font-semibold text-lg text-red-800 bg-red-100 rounded-3xl p-2 cursor-pointer hover:bg-red-200 "
                       >
