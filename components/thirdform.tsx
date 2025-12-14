@@ -82,7 +82,7 @@ const Thirdform: FC<{
         }
       }}
     >
-      <div className="bg-linear-to-r from-neutral-200 to-gray-200 p-5 border shadow-md shadow-gray-500 rounded-2xl  hover:shadow-xl transition-all duration-300 ease-in-out hover:shadow-neutral-600">
+      {/* <div className="bg-linear-to-r from-neutral-200 to-gray-200 p-5 border shadow-md shadow-gray-500 rounded-2xl  hover:shadow-xl transition-all duration-300 ease-in-out hover:shadow-neutral-600">
         <div className="flex flex-col gap-5">
           <div className="text-blue-900 text-center">
             Fill out the details below to track your spendings.
@@ -135,6 +135,99 @@ const Thirdform: FC<{
               <Icon
                 icon="carbon:next-filled"
                 className="text-2xl text-purple-800"
+              />
+            </button>
+          </div>
+        </div>
+      </div> */}
+      {/* Assuming this is wrapped in a similar card structure as Step 1 and 2 */}
+      <div
+        className="
+    bg-white/80 backdrop-blur-md p-8 rounded-3xl /* Glassmorphism effect */
+    shadow-2xl shadow-indigo-300/50
+    hover:shadow-indigo-400/60 transition-all duration-500
+    border-t-2 border-teal-500
+"
+      >
+        <div className="flex flex-col gap-6">
+          <div className="text-center">
+            <div className="text-2xl font-extrabold text-teal-700">
+              Almost Done!
+            </div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              Add an optional description and confirm your new expense.
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-3 pb-2 border-b-2 border-indigo-100 dark:border-gray-700">
+            <div className="font-bold text-xl text-gray-700 dark:text-gray-200">
+              Description (Optional)
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <Icon
+                icon="streamline-plump:description-solid"
+                className="text-xl text-teal-600 dark:text-teal-400"
+              />
+              <label className="font-semibold text-base text-gray-700 dark:text-gray-300">
+                Details
+              </label>
+            </div>
+
+            <textarea
+              {...form.register("description")}
+              placeholder="Write something about your expenses (e.g., 'Paid online for emergency dental work')"
+              rows={3}
+              className="
+                    text-base bg-gray-50 dark:bg-gray-700 rounded-xl p-3 text-gray-900 dark:text-white
+                    border-2 border-gray-200 dark:border-gray-600 focus:border-indigo-500
+                    transition-all duration-300 outline-none resize-none
+                "
+            ></textarea>
+          </div>
+
+          <div className="flex justify-between pt-2">
+            <button
+              type="button"
+              onClick={() => {
+                setStep(2);
+              }}
+              className="
+                    flex items-center gap-2 px-4 py-3 rounded-full
+                    bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold text-lg
+                    transition-all duration-300
+                    dark:bg-gray-600 dark:hover:bg-gray-700 dark:text-gray-200
+                "
+            >
+              <Icon icon="ion:play-back-sharp" className="text-2xl" />
+              Back
+            </button>
+
+            <button
+              disabled={mutation.isPending}
+              type="submit"
+              className={`
+                    flex items-center gap-2 px-6 py-3 rounded-full font-bold text-lg
+                    shadow-lg transition-all duration-300
+                    ${
+                      mutation.isPending
+                        ? "bg-indigo-400 text-white cursor-not-allowed shadow-none"
+                        : "bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-500/50 transform hover:scale-[1.02]"
+                    }
+                `}
+            >
+              <span className="tracking-wide">
+                {mutation.isPending ? "Saving..." : "Confirm & Save"}
+              </span>
+              <Icon
+                icon={
+                  mutation.isPending
+                    ? "eos-icons:loading"
+                    : "carbon:next-filled"
+                }
+                className="text-2xl"
               />
             </button>
           </div>

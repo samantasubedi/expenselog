@@ -30,7 +30,7 @@ const Secondform: FC<{
         }
       }}
     >
-      <div className="bg-linear-to-r from-neutral-200 to-gray-200 p-5 border shadow-md shadow-gray-500 rounded-2xl  hover:shadow-xl transition-all duration-300 ease-in-out hover:shadow-neutral-600">
+      {/* <div className="bg-linear-to-r from-neutral-200 to-gray-200 p-5 border shadow-md shadow-gray-500 rounded-2xl  hover:shadow-xl transition-all duration-300 ease-in-out hover:shadow-neutral-600">
         <div className="flex flex-col gap-5">
           <div className="text-blue-900 text-center">
             Fill out the details below to track your spendings.
@@ -108,6 +108,130 @@ const Secondform: FC<{
                 icon="carbon:next-filled"
                 className="text-2xl text-purple-800"
               />
+            </button>
+          </div>
+        </div>
+      </div> */}
+
+      <div
+        className="
+    bg-white/80 backdrop-blur-md p-8 rounded-3xl /* Glassmorphism effect */
+    shadow-2xl shadow-indigo-300/50
+    hover:shadow-indigo-400/60 transition-all duration-500
+    border-t-2 border-teal-500
+"
+      >
+        <div className="flex flex-col gap-6">
+          <div className="text-center">
+            <div className="text-2xl font-extrabold text-teal-700 dark:text-indigo-400 mb-1">
+              When & What?
+            </div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              Select the expense date and appropriate category.
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-3 pb-2 border-b-2 border-indigo-100 dark:border-gray-700">
+            <div className="font-bold text-xl text-gray-700 dark:text-gray-200">
+              Date & Category
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <Icon
+                icon="uiw:date"
+                className="text-xl text-teal-600 dark:text-teal-400"
+              />
+              <label className="font-semibold text-base text-gray-700 dark:text-gray-300">
+                Date
+              </label>
+            </div>
+            <input
+              type="date"
+              {...form.register("date")}
+              className="
+                    text-lg bg-gray-50 dark:bg-gray-700 rounded-xl p-3 text-gray-900 dark:text-white
+                    border-2 border-gray-200 dark:border-gray-600 focus:border-indigo-500
+                    transition-all duration-300 outline-none
+                "
+            />
+            <span className="text-red-500 text-sm h-4">
+              {form.formState.errors.date?.message}
+            </span>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-2">
+              <Icon
+                icon="bx:category"
+                className="text-xl text-teal-600 dark:text-teal-400"
+              />
+              <label className="font-semibold text-base text-gray-700 dark:text-gray-300">
+                Category
+              </label>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 p-4 bg-blue-100 dark:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600">
+              {categories.map((currentcategory) => (
+                <button
+                  type="button"
+                  key={currentcategory}
+                  onClick={() => {
+                    setcategory(currentcategory);
+                    form.setValue("category", currentcategory, {
+                      shouldValidate: true,
+                    });
+                  }}
+                  className={`
+                            flex items-center gap-2 py-3 px-4 rounded-lg font-semibold text-sm
+                            cursor-pointer transition-all duration-300 ease-in-out
+                            ${
+                              category === currentcategory
+                                ? "bg-indigo-500 text-white shadow-md shadow-indigo-400/50 transform scale-[1.03]"
+                                : "bg-white text-gray-700 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-900 border border-gray-300 dark:border-gray-600" // Inactive State
+                            }
+                        `}
+                >
+                  <Icon
+                    icon={categoryIcons[currentcategory]}
+                    className="text-xl shrink-0"
+                  />
+                  <span className="truncate"> {currentcategory}</span>
+                </button>
+              ))}
+            </div>
+            <span className="text-red-500 text-sm h-4">
+              {form.formState.errors.category?.message}
+            </span>
+          </div>
+
+          <div className="flex justify-between pt-2">
+            <button
+              type="button"
+              onClick={() => setStep(1)}
+              className="
+                    flex items-center gap-2 px-4 py-3 rounded-full
+                    bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold text-lg
+                    transition-all duration-300
+                    dark:bg-gray-600 dark:hover:bg-gray-700 dark:text-gray-200
+                "
+            >
+              <Icon icon="ion:play-back-sharp" className="text-2xl" />
+              Back
+            </button>
+
+            <button
+              type="submit"
+              className="
+                    flex items-center gap-2 px-6 py-3 rounded-full
+                    bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg
+                    shadow-lg shadow-indigo-500/50 transition-all duration-300
+                    transform hover:scale-[1.02]
+                "
+            >
+              Next
+              <Icon icon="carbon:next-filled" className="text-2xl" />
             </button>
           </div>
         </div>

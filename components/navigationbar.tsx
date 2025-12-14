@@ -1,5 +1,6 @@
 "use client";
 
+import { Icon } from "@iconify/react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -19,8 +20,10 @@ const Navigationbar = () => {
   if (hidenavbar) return null;
   const navlinkclass = (isActive: Boolean) =>
     `${
-      isActive ? " underline underline-offset-4 " : ""
-    } transition-all duration-300 font-bold text-xl text-purple-900 font-mono`;
+      isActive
+        ? " bg-gray-200 px-2 py-1 rounded-2xl shadow-sm shadow-gray-500 "
+        : "px-2 py-1"
+    } transition-all duration-300 font-bold text-xl text-amber-700 font-mono`;
 
   return (
     <div className="flex justify-center z-10 ">
@@ -31,7 +34,10 @@ const Navigationbar = () => {
           }}
           className={navlinkclass(pathname === "/")}
         >
-          Home
+          <div className="flex gap-2">
+            <Icon icon="line-md:home-twotone" width="24" height="24" />
+            <div>Home</div>
+          </div>
         </button>
         <button
           onClick={() => {
@@ -43,7 +49,11 @@ const Navigationbar = () => {
           }}
           className={navlinkclass(pathname === "/myexpenses")}
         >
-          My Expenses
+          <div className="flex gap-2">
+            {" "}
+            <Icon icon="hugeicons:file-view" width="24" height="24" />
+            <div> My Expenses</div>
+          </div>
         </button>
         <button
           onClick={() => {
@@ -55,7 +65,10 @@ const Navigationbar = () => {
           }}
           className={navlinkclass(pathname === "/addexpenses")}
         >
-          Add Expense
+          <div className="flex gap-2">
+            <Icon icon="subway:add" width="24" height="24" />
+            <div> Add Expense</div>
+          </div>
         </button>
       </div>
     </div>

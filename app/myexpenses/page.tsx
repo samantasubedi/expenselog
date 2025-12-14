@@ -82,7 +82,6 @@ const Expensepage = () => {
       </div>
     );
   }
-  console.log(query.data);
 
   return (
     <div className="">
@@ -143,13 +142,12 @@ const Expensepage = () => {
         Your Financial Overview
       </div>
 
-      {query.data.retrivedExpenses.length == 0 && (
+      {query.data && query.data.retrivedExpenses.length == 0 && (
         <div
           className="
             flex flex-col items-center justify-center p-8 m-4
             bg-white border-2 border-dashed border-red-300 rounded-3xl
-            shadow-xl
-        "
+            shadow-xl "
         >
           <div className="flex gap-5">
             <Icon
@@ -189,35 +187,53 @@ const Expensepage = () => {
               return (
                 <div
                   key={i.id}
-                  className="bg-gray-200 rounded-3xl p-5 hover:transform duration-400 ease-in-out hover:bg-blue-100 cursor-pointer"
+                  className="bg-gray-100 rounded-3xl p-5 hover:transform duration-400 ease-in-out hover:bg-blue-100 cursor-pointer"
                 >
                   {confirm && (
-                    <div className="flex flex-col gap-5 absolute bg-red-100 border-2 rounded-2xl p-3 mt-[5%] ml-[25%]">
-                      <div className="font-semibold text-3xl text-red-900">
-                        Are you sure you want to delete this expense ?
-                      </div>
-                      <div className="flex justify-evenly">
-                        <button
-                          className="bg-red-600 text-lg rounded-2xl p-1 font-bold text-white border-2 border-red-600 hover:border-black cursor-pointer"
-                          onClick={() => {
-                            deleteMutation.mutate(i.id);
-                            setconfirm(false);
-                          }}
-                        >
-                          Delete
-                        </button>
-                        <button
-                          className="bg-blue-900 text-lg rounded-2xl p-1 font-bold text-white border-2 border-blue-900 hover:border-black cursor-pointer"
-                          onClick={() => {
-                            setconfirm(false);
-                          }}
-                        >
-                          Cancel
-                        </button>
+                    <div className="  fixed inset-0 z-50 flex items-center justify-center   backdrop-blur-xs">
+                      <div className=" flex flex-col gap bg-white rounded-3x p-7 w-96 max-w-sm shadow-2xl border-t-4 border-red-500 dark:border-red-600 transform scale-100 animate-fadeIn ">
+                        <div className="flex items-center space-x-4">
+                          <Icon
+                            icon="mingcute:file-warning-fill"
+                            width="24"
+                            height="24"
+                            className="text-red-700"
+                          />
+                          <div className="font-extrabold text-2xl text-red-700 dark:text-red-500">
+                            Irreversible Action!
+                          </div>
+                        </div>
+
+                        <p className="text-gray-700 dark:text-gray-300 text-lg font-medium">
+                          Are you absolutely sure you want to{" "}
+                          <b className="text-red-600 font-extrabold">Delete</b>{" "}
+                          this expense record? This action cannot be undone.
+                        </p>
+
+                        <div className="flex justify-between space-x-4 pt-2">
+                          <button
+                            className="flex-1 py-3 text-lg rounded-xl font-bold text-white bg-red-600 hover:bg-red-700shadow-md shadow-red-500/50 transition-all transform hover:scale-[1.02] "
+                            onClick={() => {
+                              deleteMutation.mutate(i.id);
+                              setconfirm(false);
+                            }}
+                          >
+                            Yes, Delete It
+                          </button>
+
+                          <button
+                            className="flex-1 py-3 text-lg rounded-xl font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors "
+                            onClick={() => {
+                              setconfirm(false);
+                            }}
+                          >
+                            Keep Expense
+                          </button>
+                        </div>
                       </div>
                     </div>
                   )}
-                  <div>
+                  {/* <div>
                     <div className="font-bold text-3xl text-orange-800 text-center bg-cyan-50 rounded-2xl mb-3">
                       {i.title}
                     </div>
@@ -256,6 +272,77 @@ const Expensepage = () => {
                       >
                         <div>Delete</div>
                         <Icon icon="ic:baseline-delete" className="text-2xl" />
+                      </button>
+                    </div>
+                  </div> */}
+                  <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-indigo-500  ">
+                    <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-100 ">
+                      <div className="font-extrabold text-3xl text-gray-900 truncate">
+                        {i.title}
+                      </div>
+
+                      <div className="text-sm font-semibold py-1 px-3 rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300 ">
+                        {i.category}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-y-3 gap-x-4 mb-5 text-sm">
+                      <div className="col-span-2 flex justify-between items-end pb-2 border-b border-dashed border-gray-200 dark:border-gray-700">
+                        <div className="text-xl font-medium text-gray-600 dark:text-gray-400">
+                          Amount
+                        </div>
+                        <div className="font-extrabold text-4xl text-red-600 dark:text-red-400">
+                          Rs.{i.amount}
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col">
+                        <div className="text-xs  text-yellow-700 uppercase font-bold">
+                          Date Added
+                        </div>
+                        <div className="font-semibold text-gray-800 ">
+                          {moment(i.date).format("YYYY-MM-DD")}
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col text-right">
+                        <div className="text-xs  text-yellow-700 uppercase font-bold ">
+                          Time
+                        </div>
+                        <div className="font-semibold text-gray-800 dark:text-gray-200">
+                          {moment(i.date).format("HH:mm:ss A")}
+                        </div>
+                      </div>
+                    </div>
+
+                    {i.description && (
+                      <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg mb-6">
+                        <div className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+                          Description
+                        </div>
+                        <p className="text-sm italic text-gray-700 dark:text-gray-300">
+                          {i.description}
+                        </p>
+                      </div>
+                    )}
+
+                    <div className="flex justify-end gap-3">
+                      <button
+                        onClick={() => router.push(`/addexpenses?id=${i.id}`)}
+                        className="flex items-center gap-1 font-semibold text-sm rounded-full py-2 px-4 text-yellow-800 bg-yellow-100 hover:bg-yellow-200 transition-colors dark:bg-yellow-900 dark:text-yellow-300 dark:hover:bg-yellow-800"
+                      >
+                        <Icon icon="iconamoon:edit-thin" className="text-lg" />
+                        Edit
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setconfirm(true);
+                        }}
+                        className=" flex items-center gap-1 font-semibold text-sm rounded-full py-2 px-4 text-red-700 bg-red-100 hover:bg-red-200 transition-colors dark:bg-red-900 dark:text-red-300 dark:hover:bg-red-800 "
+                      >
+                        <Icon icon="ic:baseline-delete" className="text-lg" />
+                        Delete
                       </button>
                     </div>
                   </div>
