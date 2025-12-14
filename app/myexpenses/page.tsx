@@ -72,6 +72,7 @@ const Expensepage = () => {
       toast.error("Deletion failed !");
     },
   });
+  const [SignoutConfirm, setSignoutConfirm] = useState(false);
 
   if (query.isLoading) {
     return (
@@ -81,23 +82,96 @@ const Expensepage = () => {
       </div>
     );
   }
+  console.log(query.data);
 
   return (
     <div className="">
       <div className="flex justify-end-safe">
         <button
           className="bg-red-500 text-white font-bold p-2 rounded-2xl cursor-pointer mr-4"
-          onClick={() => signOut({ callbackUrl: "/" })}
+          onClick={() =>
+            //  signOut({ callbackUrl: "/" })
+            setSignoutConfirm(true)
+          }
         >
           Sign out
         </button>
       </div>
-      <div className="text-3xl text-center m-4 text-gray-500 font-semibold">
-        Your All Expenses appear here
+
+      {SignoutConfirm && (
+        <div className=" absolute right-4 top-16 z-50   bg-white dark:bg-gray-800 rounded-xl shadow-2xl transition-all duration-300 p-6 w-72 max-w-xs border border-gray-100 dark:border-gray-700 ">
+          <div className="flex items-center space-x-3 mb-4">
+            <Icon icon="carbon:logout" width="32" height="32" />
+            <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              Confirm Sign Out
+            </div>
+          </div>
+
+          <p className="text-gray-600 dark:text-gray-400 mb-6 text-sm">
+            You are about to end your session. Are you sure you wish to{" "}
+            <b className="text-red-700">logout</b>?
+          </p>
+
+          <div className="flex justify-between space-x-3">
+            <button
+              onClick={() => setSignoutConfirm(false)}
+              className="
+                    flex-1 py-2 text-sm rounded-lg font-medium
+                    text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700
+                    hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors
+                "
+            >
+              Stay Logged In
+            </button>
+            <button
+              onClick={() => {
+                signOut({ callbackUrl: "/" });
+              }}
+              className="
+                    flex-1 py-2 text-sm rounded-lg font-semibold
+                    text-white bg-red-600 hover:bg-red-700 transition-colors
+                    shadow-lg shadow-red-500/50
+                "
+            >
+              Logout Now
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="text-4xl text-center mt-6 mb-8 text-indigo-600 font-extrabold tracking-tight">
+        Your Financial Overview
       </div>
-      {!query.data && (
-        <div className="text-center font-semibold text-7xl text-red-400 bg-gray-200 p-3 rounded-2xl ">
-          No Expense found !
+
+      {query.data.retrivedExpenses.length == 0 && (
+        <div
+          className="
+            flex flex-col items-center justify-center p-8 m-4
+            bg-white border-2 border-dashed border-red-300 rounded-3xl
+            shadow-xl
+        "
+        >
+          <div className="flex gap-5">
+            <Icon
+              icon="healthicons:not-ok"
+              width="40"
+              height="40"
+              className="text-red-600 rounded-full"
+            />
+            <div className="text-3xl font-bold text-red-600 mb-2">
+              It's Quiet Here...
+            </div>
+          </div>
+          <p className="text-lg text-gray-500 font-medium">
+            No expense records have been added yet! Start tracking your spending
+            by adding your expense{" "}
+            <button
+              onClick={() => router.push("/addexpenses")}
+              className="text-semibold text-purple-900 bg-gray-200 rounded-2xl p-2 cursor-pointer"
+            >
+              Add expense
+            </button>
+          </p>
         </div>
       )}
 

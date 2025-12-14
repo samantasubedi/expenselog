@@ -10,6 +10,7 @@ import {
   ClipboardCheck,
   UserRoundCheck,
 } from "lucide-react";
+import { useState } from "react";
 export default function Home() {
   const session = useSession();
   const sessionstatus = session.status;
@@ -43,6 +44,7 @@ export default function Home() {
       router.push("/signin");
     }
   }
+  const [SignoutConfirm, setSignoutConfirm] = useState(false);
 
   return (
     <div className="bg-[url('/bgimg.png')] h-full bg-center bg-cover ">
@@ -52,7 +54,7 @@ export default function Home() {
         <button
           onClick={() => {
             if (session.status == "authenticated") {
-              signOut({ callbackUrl: "/" });
+              setSignoutConfirm(true);
             } else {
               handlesignin();
             }
@@ -65,6 +67,47 @@ export default function Home() {
         >
           {session.status == "authenticated" ? "Sign Out" : "Sign In"}
         </button>
+
+        {SignoutConfirm && (
+          <div className=" absolute right-4 top-16 z-50   bg-white dark:bg-gray-800 rounded-xl shadow-2xl transition-all duration-300 p-6 w-72 max-w-xs border border-gray-100 dark:border-gray-700 ">
+            <div className="flex items-center space-x-3 mb-4">
+              <Icon icon="carbon:logout" width="32" height="32" />
+              <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                Confirm Sign Out
+              </div>
+            </div>
+
+            <p className="text-gray-600 dark:text-gray-400 mb-6 text-sm">
+              You are about to end your session. Are you sure you wish to{" "}
+              <b className="text-red-700">logout</b>?
+            </p>
+
+            <div className="flex justify-between space-x-3">
+              <button
+                onClick={() => setSignoutConfirm(false)}
+                className="
+                            flex-1 py-2 text-sm rounded-lg font-medium
+                            text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700
+                            hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors
+                        "
+              >
+                Stay Logged In
+              </button>
+              <button
+                onClick={() => {
+                  signOut({ callbackUrl: "/" });
+                }}
+                className="
+                            flex-1 py-2 text-sm rounded-lg font-semibold
+                            text-white bg-red-600 hover:bg-red-700 transition-colors
+                            shadow-lg shadow-red-500/50
+                        "
+              >
+                Logout Now
+              </button>
+            </div>
+          </div>
+        )}
       </div>
       <div className="mt-[5%] flex flex-col gap-10">
         <div className="flex justify-center">
