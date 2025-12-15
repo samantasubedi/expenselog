@@ -42,7 +42,7 @@ export default function ExpenseAreaChart() {
     "Nov",
     "Dec",
   ];
-  const expenses = query.data.retrivedExpenses;
+  const expenses = query.data?.retrivedExpenses ?? [];
   const chartData = useMemo(() => {
     if (!expenses) return [];
 
