@@ -45,10 +45,7 @@ export default function RootLayout({
         ></ToastContainer>
         <Sessionproviderwrapper>
           {" "}
-          <QueryClientProvider client={client}>
-            <Navigationbar />
-            {children}
-          </QueryClientProvider>
+          <QueryClientProvider client={client}>{children}</QueryClientProvider>
         </Sessionproviderwrapper>
       </body>
     </html>

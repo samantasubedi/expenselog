@@ -11,6 +11,7 @@ import {
   UserRoundCheck,
 } from "lucide-react";
 import { useState } from "react";
+import Navigationbar from "@/components/navigationbar";
 export default function Home() {
   const session = useSession();
   const sessionstatus = session.status;
@@ -48,6 +49,7 @@ export default function Home() {
 
   return (
     <div className="bg-[url('/bgimg.png')] h-full bg-center bg-cover ">
+      <Navigationbar />
       <div className="flex flex-row justify-between p-5">
         <span className="text-4xl text-blue-700 font-bold">ExpenseLog</span>
 

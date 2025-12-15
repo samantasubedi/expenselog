@@ -28,13 +28,14 @@ import { signOut, useSession } from "next-auth/react";
 import { redirect, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import moment from "moment";
-
+import ExpenseAreaChart from "@/components/ExpenseAreaChart";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
+import Navigationbar from "@/components/navigationbar";
 
 const Expensepage = () => {
   const router = useRouter();
@@ -47,7 +48,7 @@ const Expensepage = () => {
   const useremail = session.data?.user?.email;
   const [confirm, setconfirm] = useState(false);
   const query = useQuery({
-    queryKey: ["allexpenses"],
+    queryKey: ["allexpenses", useremail],
     queryFn: async () => {
       const response = await axios.get("/api/user", {
         params: { email: useremail },
@@ -85,13 +86,11 @@ const Expensepage = () => {
 
   return (
     <div className="">
+      <Navigationbar />
       <div className="flex justify-end-safe">
         <button
           className="bg-red-500 text-white font-bold p-2 rounded-2xl cursor-pointer mr-4"
-          onClick={() =>
-            //  signOut({ callbackUrl: "/" })
-            setSignoutConfirm(true)
-          }
+          onClick={() => setSignoutConfirm(true)}
         >
           Sign out
         </button>
@@ -141,6 +140,7 @@ const Expensepage = () => {
       <div className="text-4xl text-center mt-6 mb-8 text-indigo-600 font-extrabold tracking-tight">
         Your Financial Overview
       </div>
+      <ExpenseAreaChart />
 
       {query.data && query.data.retrivedExpenses.length == 0 && (
         <div
@@ -233,48 +233,7 @@ const Expensepage = () => {
                       </div>
                     </div>
                   )}
-                  {/* <div>
-                    <div className="font-bold text-3xl text-orange-800 text-center bg-cyan-50 rounded-2xl mb-3">
-                      {i.title}
-                    </div>
-                    <div className="font-semibold text-xl text-red-950">
-                      Expense added at :{" "}
-                      {moment(i.date).format("YYYY-MM-DD HH:MM:SS A")}
-                    </div>
-                    <div className="font-semibold text-xl text-red-950">
-                      Expense Category : {i.category}
-                    </div>
-                    <div className="font-semibold text-xl text-red-950">
-                      {" "}
-                      Expense Amount : {i.amount}
-                    </div>
-                    {i.description && (
-                      <div className="font-semibold text-xl text-red-950">
-                        Description : {i.description}
-                      </div>
-                    )}
-                    <div className="flex justify-between mt-5">
-                      <button
-                        onClick={() => router.push(`/addexpenses?id=${i.id}`)}
-                        className="flex flex-row gap-2 font-semibold text-lg text-yellow-900 bg-amber-100 rounded-3xl p-2 cursor-pointer hover:bg-amber-200"
-                      >
-                        <div>Edit</div>
-                        <Icon
-                          icon="iconamoon:edit-thin"
-                          className="text-2xl text-yellow-900"
-                        />
-                      </button>
-                      <button
-                        onClick={() => {
-                          setconfirm(true);
-                        }}
-                        className="flex flex-row gap-2 font-semibold text-lg text-red-800 bg-red-100 rounded-3xl p-2 cursor-pointer hover:bg-red-200 "
-                      >
-                        <div>Delete</div>
-                        <Icon icon="ic:baseline-delete" className="text-2xl" />
-                      </button>
-                    </div>
-                  </div> */}
+
                   <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-indigo-500  ">
                     <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-100 ">
                       <div className="font-extrabold text-3xl text-gray-900 truncate">

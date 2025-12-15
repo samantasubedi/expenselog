@@ -15,6 +15,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import Navigationbar from "@/components/navigationbar";
 
 const Addexpensepage = () => {
   const session = useSession();
@@ -135,19 +136,24 @@ const Addexpensepage = () => {
     //     </div>
     //   </FormProvider>
     // </div>
-    <div className="min-h-screen bg-gray-50 pt-10 pb-16">
+    <div className="min-h-screen bg-gray-50  bg-[url('/addexpensepageimage.png')] h-full bg-center bg-cover ">
+      <Navigationbar />
       <div className="text-center mb-10 mx-auto ">
-        <div className="text-4xl font-extrabold  dark:text-gray-100 mb-2 tracking-tight">
-          Enter a New Expense
+        <div className="flex  flex-col items-center justify-center">
+          {" "}
+          <div className="text-4xl font-extrabold  dark:text-gray-100 mb-2 tracking-tight mt-[2%] text-blue-700 ">
+            Enter a New Expense
+          </div>
+          <div className="h-1 w-[40%] bg-cyan-800"></div>
         </div>
-        <p className="text-lg text-indigo-600 dark:text-indigo-400 font-medium">
+        <p className="text-lg text-teal-700 font-medium mt-[1%]">
           Keep track of where your money goes by logging your expense below.
         </p>
       </div>
 
       <div className="flex justify-center mb-12">
         <div className="flex justify-between w-full max-w-xl relative">
-          <div className="absolute top-1/4 mt-0.5 w-full h-2 bg-gray-200 ">
+          <div className="absolute top-1/4 mt-0.5 w-full h-2 bg-white ">
             <div
               className="h-full bg-indigo-500 transition-all duration-500 ease-in-out"
               style={{ width: `${(step - 1) * 50}%` }}
