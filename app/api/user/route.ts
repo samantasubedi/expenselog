@@ -55,7 +55,7 @@ export async function PATCH(req: Request, { params }: any) {
           title: body.title,
           amount: body.amount,
           category: body.category,
-          date: body.date,
+          date: new Date(body.date),
           description: body.description,
           userEmail: body.userEmail,
         },

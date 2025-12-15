@@ -2,6 +2,7 @@ import React, { FC, useState } from "react";
 import { Icon } from "@iconify/react";
 import { useForm, useFormContext } from "react-hook-form";
 import { T_CreateExpenseType } from "@/app/schema/validationschema";
+import { DatePicker } from "./ui/date-picker";
 
 const Secondform: FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -147,7 +148,7 @@ const Secondform: FC<{
                 Date
               </label>
             </div>
-            <input
+            {/* <input
               type="date"
               {...form.register("date")}
               className="
@@ -155,6 +156,14 @@ const Secondform: FC<{
                     border-2 border-gray-200 dark:border-gray-600 focus:border-indigo-500
                     transition-all duration-300 outline-none
                 "
+            /> */}
+            <DatePicker
+              value={new Date(form.watch("date"))}
+              onChange={(d) => {
+                console.log(d);
+                form.setValue("date", d);
+              }}
+              disabled={false}
             />
             <span className="text-red-500 text-sm h-4">
               {form.formState.errors.date?.message}
