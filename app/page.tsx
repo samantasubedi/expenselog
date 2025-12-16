@@ -115,7 +115,7 @@ export default function Home() {
           </div>
         )}
       </div>
-      <div className="mt-[5%] flex flex-col gap-10">
+      <div className="mt-[0%] flex flex-col gap-10">
         <div className="flex justify-center">
           <p className="font-bold  text-6xl text-center w-[60%] text-teal-800">
             Take Control of Your Money, Track Your Expenses & Live Freely.

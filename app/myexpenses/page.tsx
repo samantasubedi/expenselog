@@ -94,7 +94,7 @@ const Expensepage = () => {
       </div>
       <div className="flex justify-end-safe">
         <button
-          className="bg-red-500 text-white font-bold p-2 rounded-2xl cursor-pointer mr-4"
+          className="bg-red-700 hover:bg-red-500 text-white font-bold p-2 rounded-2xl cursor-pointer mr-4"
           onClick={() => setSignoutConfirm(true)}
         >
           Sign out
