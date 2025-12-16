@@ -86,7 +86,10 @@ const Expensepage = () => {
 
   return (
     <div className="">
-      <Navigationbar />
+      <div className="sticky top-0 z-50">
+        {" "}
+        <Navigationbar />
+      </div>
       <div className="flex justify-end-safe">
         <button
           className="bg-red-500 text-white font-bold p-2 rounded-2xl cursor-pointer mr-4"

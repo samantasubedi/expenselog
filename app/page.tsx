@@ -49,9 +49,12 @@ export default function Home() {
 
   return (
     <div className="bg-[url('/bgimg.png')] h-full bg-center bg-cover ">
-      <Navigationbar />
+      <div className="sticky top-0 z-50">
+        {" "}
+        <Navigationbar />
+      </div>
       <div className="flex flex-row justify-between p-5">
-        <span className="text-4xl text-blue-700 font-bold">ExpenseLog</span>
+        <span className="text-4xl text-purple-700 font-bold">ExpenseLog</span>
 
         <button
           onClick={() => {
@@ -113,16 +116,16 @@ export default function Home() {
       </div>
       <div className="mt-[5%] flex flex-col gap-10">
         <div className="flex justify-center">
-          <p className="font-bold  text-6xl text-center w-[60%] ">
+          <p className="font-bold  text-6xl text-center w-[60%] text-teal-800">
             Take Control of Your Money, Track Your Expenses & Live Freely.
           </p>
         </div>
         <div className="flex flex-col items-center justify-center">
-          <p className=" text-xl ">
+          <p className=" text-xl text-teal-900">
             ExpenseLog empowers you to effortlessly track, categorize, and
             understand your
           </p>
-          <p className="text-xl ">
+          <p className="text-xl text-teal-900">
             spending habits. Make smarter financial decisions, starting today.
           </p>
         </div>

@@ -137,7 +137,10 @@ const Addexpensepage = () => {
     //   </FormProvider>
     // </div>
     <div className="min-h-screen bg-gray-50  bg-[url('/addexpensepageimage.png')] h-full bg-center bg-cover ">
-      <Navigationbar />
+      <div className="sticky top-0 z-50">
+        {" "}
+        <Navigationbar />
+      </div>
       <div className="text-center mb-10 mx-auto ">
         <div className="flex  flex-col items-center justify-center">
           {" "}
