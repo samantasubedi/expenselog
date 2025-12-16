@@ -77,9 +77,11 @@ const Expensepage = () => {
 
   if (query.isLoading) {
     return (
-      <div className="flex justify-center gap-3">
-        <div className="text-4xl font-semibold text-amber-700">loading</div>
-        <Icon icon="eos-icons:loading" className="text-4xl text-amber-700" />
+      <div className="flex justify-center gap-3 h-screen items-center">
+        <div className="text-8xl font-semibold text-neutral-700 font-mono">
+          loading
+        </div>
+        <Icon icon="eos-icons:loading" className="text-8xl text-neutral-700" />
       </div>
     );
   }
