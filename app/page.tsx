@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { Card, CardContent } from "@/components/ui/card";
+import PreviewCarousel from "@/components/PreviewCarousel";
 import {
   ArrowBigRight,
   ChartSpline,
@@ -144,9 +145,10 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="h-[400px]  flex justify-center mt-[3%] mb-[3%]">
-        <div className="bg-slate-200 w-[50%] text-center rounded-2xl p-2">
-          Preview video
+      <div className="flex justify-center">
+        {" "}
+        <div className="h-[20%] w-[50%]  flex justify-center items-center mt-[3%] mb-[3%]">
+          <PreviewCarousel />
         </div>
       </div>
       <div className="grid grid-cols-3 px-5 gap-5">
