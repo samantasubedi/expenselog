@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const Thirdform: FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -27,13 +28,13 @@ const Thirdform: FC<{
         const response = await axios.patch("/api/user", {
           ...data,
           userEmail: session.data?.user?.email,
-          date: new Date(data.date),
+          date: data.date,
         });
       } else {
         const response = await axios.post("/api/user", {
           ...data,
           userEmail: session.data?.user?.email,
-          date: new Date(data.date),
+          date: data.date,
         });
         return response.data;
       }
@@ -48,6 +49,7 @@ const Thirdform: FC<{
       toast.error("Cannot add your data");
     },
   });
+  const router = useRouter();
   const updateMutation = useMutation({
     mutationFn: async (id: string) => {
       const res = await axios.patch("/api/user", form.getValues(), {
@@ -58,8 +60,8 @@ const Thirdform: FC<{
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["allexpenses"] });
       toast.success("Expense updated Sucessfully");
-      form.reset();
-      setStep(1);
+
+      router.push("/myexpenses");
     },
     onError: () => {
       toast.error("Update failed !");
