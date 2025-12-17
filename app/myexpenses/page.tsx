@@ -264,19 +264,10 @@ const Expensepage = () => {
 
                       <div className="flex flex-col">
                         <div className="text-xs  text-yellow-700 uppercase font-bold">
-                          Date Added
+                          Expenditure Date
                         </div>
                         <div className="font-semibold text-gray-800 ">
                           {moment(i.date).format("YYYY-MM-DD")}
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col text-right">
-                        <div className="text-xs  text-yellow-700 uppercase font-bold ">
-                          Time
-                        </div>
-                        <div className="font-semibold text-gray-800 dark:text-gray-200">
-                          {moment(i.date).format("HH:mm:ss A")}
                         </div>
                       </div>
                     </div>

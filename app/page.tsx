@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { Card, CardContent } from "@/components/ui/card";
 import PreviewCarousel from "@/components/PreviewCarousel";
+import { toast } from "react-toastify";
 import {
   ArrowBigRight,
   ChartSpline,
@@ -101,7 +102,10 @@ export default function Home() {
               </button>
               <button
                 onClick={() => {
-                  signOut({ callbackUrl: "/" });
+                  toast.error("you have been logged out !");
+                  setTimeout(() => {
+                    signOut({ callbackUrl: "/" });
+                  }, 500);
                 }}
                 className="
                             flex-1 py-2 text-sm rounded-lg font-semibold
