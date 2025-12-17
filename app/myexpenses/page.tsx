@@ -47,6 +47,7 @@ const Expensepage = () => {
   const username = session.data?.user?.name;
   const useremail = session.data?.user?.email;
   const [confirm, setconfirm] = useState(false);
+  const [IdToDelete, setIdToDelete] = useState<string | null>(null);
   const query = useQuery({
     queryKey: ["allexpenses", useremail],
     queryFn: async () => {
@@ -142,6 +143,52 @@ const Expensepage = () => {
         </div>
       )}
 
+      {confirm && (
+        <div className="  fixed inset-0 z-50 flex items-center justify-center   backdrop-blur-xs">
+          <div className=" flex flex-col gap bg-white rounded-3x p-7 w-96 max-w-sm shadow-2xl border-t-4 border-red-500 dark:border-red-600 transform scale-100 animate-fadeIn ">
+            <div className="flex items-center space-x-4">
+              <Icon
+                icon="mingcute:file-warning-fill"
+                width="24"
+                height="24"
+                className="text-red-700"
+              />
+              <div className="font-extrabold text-2xl text-red-700 dark:text-red-500">
+                Irreversible Action!
+              </div>
+            </div>
+
+            <p className="text-gray-700 dark:text-gray-300 text-lg font-medium">
+              Are you absolutely sure you want to{" "}
+              <b className="text-red-600 font-extrabold">Delete</b> this expense
+              record? This action cannot be undone.
+            </p>
+
+            <div className="flex justify-between space-x-4 pt-2">
+              <button
+                className="flex-1 py-3 text-lg rounded-xl font-bold text-white bg-red-600 hover:bg-red-700shadow-md shadow-red-500/50 transition-all transform hover:scale-[1.02] "
+                onClick={() => {
+                  deleteMutation.mutate(IdToDelete || "");
+                  setconfirm(false);
+                  setIdToDelete(null);
+                }}
+              >
+                Yes, Delete It
+              </button>
+
+              <button
+                className="flex-1 py-3 text-lg rounded-xl font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors "
+                onClick={() => {
+                  setconfirm(false);
+                }}
+              >
+                Keep Expense
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="text-4xl text-center mt-6 mb-8 text-indigo-600 font-extrabold tracking-tight">
         Your Financial Overview
       </div>
@@ -194,51 +241,6 @@ const Expensepage = () => {
                   key={i.id}
                   className="bg-gray-100 rounded-3xl p-5 hover:transform duration-400 ease-in-out hover:bg-blue-100 cursor-pointer"
                 >
-                  {confirm && (
-                    <div className="  fixed inset-0 z-50 flex items-center justify-center   backdrop-blur-xs">
-                      <div className=" flex flex-col gap bg-white rounded-3x p-7 w-96 max-w-sm shadow-2xl border-t-4 border-red-500 dark:border-red-600 transform scale-100 animate-fadeIn ">
-                        <div className="flex items-center space-x-4">
-                          <Icon
-                            icon="mingcute:file-warning-fill"
-                            width="24"
-                            height="24"
-                            className="text-red-700"
-                          />
-                          <div className="font-extrabold text-2xl text-red-700 dark:text-red-500">
-                            Irreversible Action!
-                          </div>
-                        </div>
-
-                        <p className="text-gray-700 dark:text-gray-300 text-lg font-medium">
-                          Are you absolutely sure you want to{" "}
-                          <b className="text-red-600 font-extrabold">Delete</b>{" "}
-                          this expense record? This action cannot be undone.
-                        </p>
-
-                        <div className="flex justify-between space-x-4 pt-2">
-                          <button
-                            className="flex-1 py-3 text-lg rounded-xl font-bold text-white bg-red-600 hover:bg-red-700shadow-md shadow-red-500/50 transition-all transform hover:scale-[1.02] "
-                            onClick={() => {
-                              deleteMutation.mutate(i.id);
-                              setconfirm(false);
-                            }}
-                          >
-                            Yes, Delete It
-                          </button>
-
-                          <button
-                            className="flex-1 py-3 text-lg rounded-xl font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors "
-                            onClick={() => {
-                              setconfirm(false);
-                            }}
-                          >
-                            Keep Expense
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
                   <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-indigo-500  ">
                     <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-100 ">
                       <div className="font-extrabold text-3xl text-gray-900 truncate">
@@ -301,6 +303,7 @@ const Expensepage = () => {
 
                       <button
                         onClick={() => {
+                          setIdToDelete(i.id);
                           setconfirm(true);
                         }}
                         className=" flex items-center gap-1 font-semibold text-sm rounded-full py-2 px-4 text-red-700 bg-red-100 hover:bg-red-200 transition-colors dark:bg-red-900 dark:text-red-300 dark:hover:bg-red-800 "
